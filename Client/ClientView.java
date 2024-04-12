@@ -146,4 +146,5 @@ public class ClientView
         this.isLoggedIn = isLoggedIn;
         switchPanelLogin();
     }
+    // this is a test!
 }
