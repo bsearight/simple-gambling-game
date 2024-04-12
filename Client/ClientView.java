@@ -125,7 +125,7 @@ public class ClientView
     }
     private void openGameView()
     {
-        // creates new game view
+        new ClientGameView(controller);
     }
     private void openLoginPane()
     {
@@ -146,5 +146,4 @@ public class ClientView
         this.isLoggedIn = isLoggedIn;
         switchPanelLogin();
     }
-    // this is a test!
 }
