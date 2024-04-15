@@ -1,4 +1,7 @@
 package Client;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -23,6 +26,17 @@ public class ClientController
     private void init()
     {
         // initiate connection with server
+        try
+        {
+            Socket clientSocket = new Socket("127.0.0.1", 6000);
+            System.out.println("Client: attempting Connection");
+            while(true){
+                //InputStreamReader stream = new InputStreamReader(socket.getInputStream());
+                //BufferedReader reader = new BufferedReader(stream);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     public boolean login(String username, String password)
     {
