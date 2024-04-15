@@ -1,5 +1,7 @@
 package Client;
 import Resources.Player;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class ClientModel
@@ -14,6 +16,6 @@ public class ClientModel
     
     private void init()
     {
-        
+        players = new ArrayList<Player>();
     }
 }

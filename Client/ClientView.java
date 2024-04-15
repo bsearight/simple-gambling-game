@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -69,6 +70,15 @@ public class ClientView
             }
         });
         logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                controller.logout();
+                JOptionPane.showMessageDialog(null, "Logged Out", "", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
         quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener() 
         {

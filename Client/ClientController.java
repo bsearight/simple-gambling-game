@@ -47,6 +47,10 @@ public class ClientController
         view.setIsLoggedIn(loginSuccess);
         return loginSuccess;
     }
+    public void logout()
+    {
+        view.setIsLoggedIn(false);
+    }
     public void quit()
     {
         System.exit(0);
