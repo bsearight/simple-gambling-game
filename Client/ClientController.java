@@ -31,6 +31,13 @@ public class ClientController
         view = new ClientView(this);
         init();
     }
+    /*Client Logic:
+Communication: Interacts with the server via sockets for data exchange.
+User Authentication: Authenticates users with local password hashing.
+Temporary Local Storage: Stores temporary data locally, fetching/sending server info as needed.
+Leaderboard: Displays players and their cash balances.
+GUI: Drives all other logic through a graphical user interface.
+*/
     private void init()
     {
         // initiate connection with server
@@ -41,10 +48,6 @@ public class ClientController
             inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
             reader = new BufferedReader(inputStreamReader);
             writer = new PrintWriter(clientSocket.getOutputStream());
-            while(true)
-            {
-                // 
-            }
         }
         catch (IOException ex)
         {
@@ -72,10 +75,14 @@ public class ClientController
         // returns a boolean indicating whether it succeeded or not
         Player current = model.getCurrentPlayer();
         writer.println("auth_user_hash");
+        writer.flush();
         writer.println(current.getPHash());
+        writer.flush();
         try
         {
-            retval = reader.readLine();
+            if((retval = reader.readLine()) != null) {
+                System.out.println(retval);
+            }
         }
         catch (IOException e)
         {
@@ -83,7 +90,7 @@ public class ClientController
         }
         if (retval != null)
         {
-            if (retval == "auth_confirm") return true;
+            if (retval.equals("auth_confirm")) return true;
             else return false;
         }
         return false;
