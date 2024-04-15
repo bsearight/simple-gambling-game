@@ -10,8 +10,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class ClientController
 {
-    ClientModel model;
-    ClientView view;
+    private ClientModel model;
+    public ClientView view;
     boolean loginSuccess = false;
     
     public ClientController()

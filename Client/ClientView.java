@@ -3,6 +3,8 @@ package Client;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
@@ -29,7 +31,7 @@ public class ClientView
     private JButton leaderboardButton;
     private ImageIcon icon;
     private boolean isLoggedIn = false;
-    private boolean gameViewOpen = false;
+    private boolean isGameViewOpen = false;
 
 
     public ClientView(ClientController controller)
@@ -50,7 +52,11 @@ public class ClientView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                openGameView();
+                if (!isGameViewOpen)
+                {
+                    isGameViewOpen = true;
+                    openGameView();
+                }
             }
         });
         loginButton = new JButton("Login");
@@ -100,9 +106,9 @@ public class ClientView
         frame.add(title, BorderLayout.NORTH);
         frame.add(switchPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent)
+            public void windowClosing(WindowEvent windowEvent)
             {
                 controller.quit();
             }
@@ -145,5 +151,9 @@ public class ClientView
     {
         this.isLoggedIn = isLoggedIn;
         switchPanelLogin();
+    }
+    public void setGameViewOpen(boolean isOpen)
+    {
+        isGameViewOpen = isOpen;
     }
 }
