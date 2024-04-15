@@ -24,9 +24,16 @@ public class ServerController
                 System.out.println("waiting for clients: ");
                 Socket serverSocket = server.accept(); //waits for connection N, returns new socket connection
                 System.out.println("Client Connected");
-                while(true)
+                InputStreamReader inputStreamReader = new InputStreamReader(serverSocket.getInputStream());
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+                PrintWriter writer = new PrintWriter(serverSocket.getOutputStream());
+                while (true)
                 {
-
+                    String line = reader.readLine();
+                    if (line == "auth_user_hash")
+                    {
+                        writer.println("auth_confirm");
+                    }
                 }
             }
         }catch(IOException e)

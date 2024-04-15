@@ -72,10 +72,13 @@ public class ClientController
         // returns a boolean indicating whether it succeeded or not
         Player current = model.getCurrentPlayer();
         writer.println("auth_user_hash");
+        writer.flush();
         writer.println(current.getPHash());
+        writer.flush();
         try
         {
             retval = reader.readLine();
+            System.out.println(retval);
         }
         catch (IOException e)
         {
