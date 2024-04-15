@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CoinFlipServer",
+            "request": "launch",
+            "mainClass": "CoinFlipServer",
+            "projectName": "Final Project_a8c592b9"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

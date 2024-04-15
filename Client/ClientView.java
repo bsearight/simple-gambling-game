@@ -108,6 +108,7 @@ public class ClientView
         });
         loggedIn.add(playButton);
         loggedIn.add(logoutButton);
+        loggedIn.add(leaderboardButton);
         loggedIn.add(quitButton2);
         loggedOut.add(loginButton);
         loggedOut.add(quitButton);

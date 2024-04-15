@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import Resources.Player;
@@ -50,6 +48,7 @@ public class ClientController
         }
         catch (IOException ex)
         {
+            System.out.println("Failed to connect to server");
             ex.printStackTrace();
         }
     }
@@ -59,9 +58,8 @@ public class ClientController
         System.out.println(phash);
         model.setCurrentPlayer(username, phash);
         // get response from server, if success, switch view panels
-        loginSuccess = true;
-        view.setIsLoggedIn(loginSuccess);
-        return loginSuccess;
+        view.setIsLoggedIn(isLoggedIn());
+        return isLoggedIn();
     }
     public void logout()
     {

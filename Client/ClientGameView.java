@@ -47,7 +47,7 @@ public class ClientGameView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                // open betting pane
+                openBettingPane();
             }
         });
         flipButton = new JButton("Flip");
@@ -86,5 +86,9 @@ public class ClientGameView
         });
         frame.setSize(400, 400);
         frame.setVisible(true);
+    }
+    private void openBettingPane()
+    {
+        new ClientBettingPane(controller);
     }
 }
