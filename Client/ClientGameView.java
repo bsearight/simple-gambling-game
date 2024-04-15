@@ -84,7 +84,7 @@ public class ClientGameView
                 controller.view.setGameViewOpen(false);
             }
         });
-        frame.setSize(800, 600);
+        frame.setSize(400, 400);
         frame.setVisible(true);
     }
 }
