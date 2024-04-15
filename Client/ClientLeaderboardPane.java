@@ -14,8 +14,7 @@ public class ClientLeaderboardPane
     }
     private void init()
     {
-        leaderboard = new JTextArea();
-        // get leaderboard from server
+        leaderboard = new JTextArea(controller.getLeaderboard());
         JOptionPane.showMessageDialog(null, leaderboard, "", JOptionPane.INFORMATION_MESSAGE);
     }
 }

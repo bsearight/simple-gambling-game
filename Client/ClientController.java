@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import Resources.Player;
@@ -87,6 +89,30 @@ public class ClientController
             else return false;
         }
         return false;
+    }
+    public String getLeaderboard()
+    {
+        writer.println("get_leaderboard");
+        int numLines = 0;
+        String retval = "";
+        try 
+        {
+            String count = reader.readLine();
+            numLines = Integer.parseInt(count);
+            for (int i = 0; i < numLines; i++)
+            {
+                retval += reader.readLine() + "\n";
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NumberFormatException e)
+        {
+            e.printStackTrace();
+        }
+        return retval;
     }
     public void quit()
     {
