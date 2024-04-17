@@ -84,11 +84,7 @@ public class ClientView
     }
     private void openGameView()
     {
-        if (isGameViewOpen)
-        {
-            new ClientGameView(controller);
-            isGameViewOpen = true;
-        }
+        new ClientGameView(controller);
     }
     private void openLoginPane()
     {
@@ -113,6 +109,10 @@ public class ClientView
     {
         isGameViewOpen = isOpen;
     }
+    public void showWindow()
+    {
+        frame.setVisible(true);
+    }
     private void initButtons()
     {
         playButton = new JButton("Play");
@@ -121,11 +121,9 @@ public class ClientView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (!isGameViewOpen)
-                {
-                    isGameViewOpen = true;
-                    openGameView();
-                }
+                isGameViewOpen = true;
+                openGameView();
+                frame.setVisible(false);
             }
         });
         loginButton = new JButton("Login");
@@ -143,11 +141,8 @@ public class ClientView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (!isGameViewOpen)
-                {
-                    controller.logout();
-                    JOptionPane.showMessageDialog(null, "Logged Out", "", JOptionPane.INFORMATION_MESSAGE);
-                }
+                controller.logout();
+                JOptionPane.showMessageDialog(null, "Logged Out", "", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         quitButton = new JButton("Quit");

@@ -17,7 +17,6 @@ public class ClientGameView
 {
     private ClientController controller;
     private JFrame frame;
-    private JPanel buttonsPanel;
     private JButton quitButton;
     private JButton betButton;
     private JButton flipButton;
@@ -36,7 +35,6 @@ public class ClientGameView
     private void init()
     {
         frame = new JFrame("Coin Flip Game");
-        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         switchPanel = new JPanel(new CardLayout());
         defaultState = new JPanel(new FlowLayout(FlowLayout.CENTER));
         postBetState = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -47,10 +45,10 @@ public class ClientGameView
         switchPanel.add(cleanupState, "Cleanup");
         coinFlip = new JTextArea();
         frame.add(BorderLayout.CENTER, switchPanel);
-        buttonsPanel.add(betButton);
-        buttonsPanel.add(okayButton);
-        buttonsPanel.add(flipButton);
-        buttonsPanel.add(quitButton);
+        defaultState.add(betButton);
+        defaultState.add(quitButton);
+        postBetState.add(flipButton);
+        cleanupState.add(okayButton);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter()
         {
@@ -58,6 +56,7 @@ public class ClientGameView
             public void windowClosing(WindowEvent windowEvent)
             {
                 controller.view.setGameViewOpen(false);
+                controller.view.showWindow();
             }
         });
         frame.setSize(400, 400);
@@ -98,6 +97,8 @@ public class ClientGameView
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                controller.view.setGameViewOpen(false);
+                controller.view.showWindow();
                 frame.dispose();
             }
         });
