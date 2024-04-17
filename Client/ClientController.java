@@ -76,6 +76,8 @@ GUI: Drives all other logic through a graphical user interface.
         Player current = model.getCurrentPlayer();
         writer.println("auth_user_hash");
         writer.flush();
+        writer.println(current.getUsername());
+        writer.flush();
         writer.println(current.getPHash());
         writer.flush();
         try
