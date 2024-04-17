@@ -1,6 +1,7 @@
 package Client;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,10 @@ public class ClientGameView
     private JButton flipButton;
     private JButton okayButton;
     private JTextArea coinFlip;
+    private JPanel switchPanel;
+    private JPanel defaultState;
+    private JPanel postBetState;
+    private JPanel cleanupState;
 
     public ClientGameView(ClientController controller)
     {
@@ -32,6 +37,61 @@ public class ClientGameView
     {
         frame = new JFrame("Coin Flip Game");
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        switchPanel = new JPanel(new CardLayout());
+        defaultState = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        postBetState = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        cleanupState = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        initButtons();
+        switchPanel.add(defaultState, "Default");
+        switchPanel.add(postBetState, "Post Bet");
+        switchPanel.add(cleanupState, "Cleanup");
+        coinFlip = new JTextArea();
+        frame.add(BorderLayout.CENTER, switchPanel);
+        buttonsPanel.add(betButton);
+        buttonsPanel.add(okayButton);
+        buttonsPanel.add(flipButton);
+        buttonsPanel.add(quitButton);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent windowEvent)
+            {
+                controller.view.setGameViewOpen(false);
+            }
+        });
+        frame.setSize(400, 400);
+        frame.setVisible(true);
+    }
+    private void openBettingPane()
+    {
+        new ClientBettingPane(controller, this);
+    }
+    protected void cancelBetting()
+    {
+        defaultState();
+    }
+    protected void confirmBetting()
+    {
+        postBetState();
+    }
+    private void defaultState()
+    {
+        CardLayout layout = (CardLayout) switchPanel.getLayout();
+        layout.show(switchPanel, "Default");
+    }
+    private void postBetState()
+    {
+        CardLayout layout = (CardLayout) switchPanel.getLayout();
+        layout.show(switchPanel, "Post Bet");
+    }
+    private void cleanupState()
+    {
+        CardLayout layout = (CardLayout) switchPanel.getLayout();
+        layout.show(switchPanel, "Cleanup");
+    }
+    private void initButtons()
+    {
         quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener() 
         {
@@ -56,7 +116,7 @@ public class ClientGameView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                // flip the coin
+                cleanupState();
             }
         });
         okayButton = new JButton("Okay");
@@ -65,30 +125,8 @@ public class ClientGameView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                // change panels
+                defaultState();
             }
         });
-        coinFlip = new JTextArea();
-        frame.add(BorderLayout.CENTER, coinFlip);
-        buttonsPanel.add(betButton);
-        buttonsPanel.add(okayButton);
-        buttonsPanel.add(flipButton);
-        buttonsPanel.add(quitButton);
-        frame.add(BorderLayout.SOUTH, buttonsPanel);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent windowEvent)
-            {
-                controller.view.setGameViewOpen(false);
-            }
-        });
-        frame.setSize(400, 400);
-        frame.setVisible(true);
-    }
-    private void openBettingPane()
-    {
-        new ClientBettingPane(controller);
     }
 }

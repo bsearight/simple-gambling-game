@@ -24,6 +24,7 @@ public class ClientController
     BufferedReader reader;
     PrintWriter writer;
     String retval;
+    boolean offline = false;
     
     public ClientController()
     {
@@ -52,15 +53,20 @@ GUI: Drives all other logic through a graphical user interface.
         catch (IOException ex)
         {
             System.out.println("Failed to connect to server");
+            offline = true;
             ex.printStackTrace();
         }
     }
     public boolean login(String username, String password)
     {
+        if (offline == true)
+        {
+            view.setIsLoggedIn(true);
+            return true;
+        }
         phash = DigestUtils.md5Hex(password);
         System.out.println(phash);
         model.setCurrentPlayer(username, phash);
-        // get response from server, if success, switch view panels
         view.setIsLoggedIn(isLoggedIn());
         return isLoggedIn();
     }

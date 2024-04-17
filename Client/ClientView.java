@@ -47,65 +47,7 @@ public class ClientView
         loggedOut = new JPanel(new FlowLayout(FlowLayout.CENTER));
         switchPanel = new JPanel(new CardLayout());
         title = getIcon();
-        playButton = new JButton("Play");
-        playButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if (!isGameViewOpen)
-                {
-                    isGameViewOpen = true;
-                    openGameView();
-                }
-            }
-        });
-        loginButton = new JButton("Login");
-        loginButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                openLoginPane();
-            }
-        });
-        logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                controller.logout();
-                JOptionPane.showMessageDialog(null, "Logged Out", "", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        quitButton = new JButton("Quit");
-        quitButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                controller.quit();
-            }
-        });
-        quitButton2 = new JButton("Quit");
-        quitButton2.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                controller.quit();
-            }
-        });
-        leaderboardButton = new JButton("Leaderboard");
-        leaderboardButton.addActionListener(new ActionListener() 
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                openLeaderboard();
-            }
-        });
+        initButtons();
         loggedIn.add(playButton);
         loggedIn.add(logoutButton);
         loggedIn.add(leaderboardButton);
@@ -142,7 +84,11 @@ public class ClientView
     }
     private void openGameView()
     {
-        new ClientGameView(controller);
+        if (isGameViewOpen)
+        {
+            new ClientGameView(controller);
+            isGameViewOpen = true;
+        }
     }
     private void openLoginPane()
     {
@@ -166,5 +112,70 @@ public class ClientView
     public void setGameViewOpen(boolean isOpen)
     {
         isGameViewOpen = isOpen;
+    }
+    private void initButtons()
+    {
+        playButton = new JButton("Play");
+        playButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (!isGameViewOpen)
+                {
+                    isGameViewOpen = true;
+                    openGameView();
+                }
+            }
+        });
+        loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                openLoginPane();
+            }
+        });
+        logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (!isGameViewOpen)
+                {
+                    controller.logout();
+                    JOptionPane.showMessageDialog(null, "Logged Out", "", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        quitButton = new JButton("Quit");
+        quitButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                controller.quit();
+            }
+        });
+        quitButton2 = new JButton("Quit");
+        quitButton2.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                controller.quit();
+            }
+        });
+        leaderboardButton = new JButton("Leaderboard");
+        leaderboardButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                openLeaderboard();
+            }
+        });
     }
 }
