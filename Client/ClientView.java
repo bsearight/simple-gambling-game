@@ -63,7 +63,7 @@ public class ClientView
             @Override
             public void windowClosing(WindowEvent windowEvent)
             {
-                controller.quit();
+                controller.logout();
             }
         });
         frame.setSize(800, 600);

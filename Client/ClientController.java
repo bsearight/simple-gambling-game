@@ -15,7 +15,7 @@ import Resources.Player;
 
 public class ClientController
 {
-    private ClientModel model;
+    private final ClientModel model;
     public ClientView view;
     boolean loginSuccess = false;
     private String phash;
@@ -48,7 +48,7 @@ GUI: Drives all other logic through a graphical user interface.
             System.out.println("Client: attempting Connection");
             inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
             reader = new BufferedReader(inputStreamReader);
-            writer = new PrintWriter(clientSocket.getOutputStream());
+            writer = new PrintWriter(clientSocket.getOutputStream(), true);
         }
         catch (IOException ex)
         {
@@ -73,19 +73,22 @@ GUI: Drives all other logic through a graphical user interface.
     public void logout()
     {
         view.setIsLoggedIn(false);
+        try {
+            writer.close();
+            clientSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public boolean isLoggedIn()
     {
         // confirm whether the current user is logged in on the server
         // this is a security measure to prevent spoofing logins locally
         // returns a boolean indicating whether it succeeded or not
-        Player current = model.getCurrentPlayer();
+        final Player current = model.getCurrentPlayer();
         writer.println("auth_user_hash");
-        writer.flush();
         writer.println(current.getUsername());
-        writer.flush();
         writer.println(current.getPHash());
-        writer.flush();
         try
         {
             if((retval = reader.readLine()) != null) {
@@ -98,7 +101,10 @@ GUI: Drives all other logic through a graphical user interface.
         }
         if (retval != null)
         {
-            if (retval.equals("auth_confirm")) return true;
+            if (retval.equals("auth_confirm"))
+            {
+                return true;
+            }
             else return false;
         }
         return false;
@@ -107,14 +113,14 @@ GUI: Drives all other logic through a graphical user interface.
     {
         writer.println("get_leaderboard");
         int numLines = 0;
-        String retval = "";
+        StringBuilder retval = new StringBuilder();
         try 
         {
             String count = reader.readLine();
             numLines = Integer.parseInt(count);
             for (int i = 0; i < numLines; i++)
             {
-                retval += reader.readLine() + "\n";
+                retval.append(reader.readLine()).append("\n");
             }
         }
         catch (IOException e)
@@ -125,7 +131,7 @@ GUI: Drives all other logic through a graphical user interface.
         {
             e.printStackTrace();
         }
-        return retval;
+        return retval.toString();
     }
     public void quit()
     {

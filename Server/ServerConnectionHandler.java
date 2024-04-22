@@ -23,7 +23,7 @@ class ServerConnectionHandler implements Runnable
         {
             inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
             BufferedReader reader = new BufferedReader(inputStreamReader);
-            PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
+            PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
             String line;
             while((line = reader.readLine()) != null)
             {
