@@ -133,6 +133,12 @@ GUI: Drives all other logic through a graphical user interface.
         }
         return retval.toString();
     }
+    protected int getCoinFlip()
+    {
+        // connect to server and request coin flip results
+        // remember to reauth with isLoggedIn()
+        return 1; // 1 is heads, 0 is tails
+    }
     public void quit()
     {
         System.exit(0);
