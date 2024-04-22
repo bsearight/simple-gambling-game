@@ -84,7 +84,7 @@ public class ClientView
     }
     private void openGameView()
     {
-        new ClientGameView(controller);
+        new ClientCoinFlipGameView(controller);
     }
     private void openLoginPane()
     {

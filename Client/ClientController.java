@@ -48,7 +48,7 @@ GUI: Drives all other logic through a graphical user interface.
             System.out.println("Client: attempting Connection");
             inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
             reader = new BufferedReader(inputStreamReader);
-            writer = new PrintWriter(clientSocket.getOutputStream());
+            writer = new PrintWriter(clientSocket.getOutputStream(), true);
         }
         catch (IOException ex)
         {
@@ -126,6 +126,12 @@ GUI: Drives all other logic through a graphical user interface.
             e.printStackTrace();
         }
         return retval;
+    }
+    protected int getCoinFlip()
+    {
+        // connect to server and request coin flip results
+        // remember to reauth with isLoggedIn()
+        return 1; // 1 is heads, 0 is tails
     }
     public void quit()
     {

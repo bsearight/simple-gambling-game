@@ -6,9 +6,9 @@ import javax.swing.JTextField;
 public class ClientBettingPane
 {
     ClientController controller;
-    ClientGameView gameView;
+    ClientCoinFlipGameView gameView;
 
-    public ClientBettingPane(ClientController controller, ClientGameView gameView)
+    public ClientBettingPane(ClientController controller, ClientCoinFlipGameView gameView)
     {
         this.controller = controller;
         this.gameView = gameView;
