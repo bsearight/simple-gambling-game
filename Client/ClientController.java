@@ -141,6 +141,14 @@ GUI: Drives all other logic through a graphical user interface.
     }
     public void quit()
     {
+        try 
+        {
+            logout();
+        }
+        catch (RuntimeException e)
+        {
+            e.printStackTrace();
+        }
         System.exit(0);
     }
 }
