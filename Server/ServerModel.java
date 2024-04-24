@@ -19,7 +19,7 @@ public class ServerModel
 
     private void init()
     {
-        try 
+        try
         {
             connection = DriverManager.getConnection(uri);
             System.out.println("Successfully connected to database.");

@@ -34,7 +34,6 @@ No Back-End Support: Server does not require a separate back-end system.
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     protected ArrayList<String> parseLeaderboard()
     {
