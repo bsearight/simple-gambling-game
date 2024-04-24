@@ -1,6 +1,10 @@
 package Server;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import Resources.Player;
+
 public class ServerModel
 {
     ServerController controller;
@@ -31,7 +35,7 @@ public class ServerModel
         }
     }
 
-    void addNewPlayer(String username, String pHash)
+    protected void addNewPlayer(String username, String pHash)
     {
         try
         {
@@ -46,5 +50,56 @@ public class ServerModel
         {
             e.printStackTrace();
         }
+    }
+
+    protected boolean userAuth(Player p)
+    {
+        String hash = "";
+        try
+        {
+            String cmd = "SELECT password FROM enemy WHERE id = ?;";
+            PreparedStatement ps = connection.prepareStatement(cmd);
+            ps.setInt(1, p.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                hash = rs.getString("password");
+            }
+            else
+            {
+                System.out.println("Error: Unknown database failure");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        if (hash == p.getPHash()) return true;
+        else return false;
+    }
+
+    protected Collection<Player> getLeaderboard()
+    {
+        Collection<Player> leaderboard = new ArrayList<Player>();
+        try 
+        {
+            String cmd = "SELECT id, username, balance FROM player ORDER BY balance DESC LIMIT 10;";
+            PreparedStatement ps = connection.prepareStatement(cmd);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Player player = new Player();
+                player.setId(rs.getInt("id"));
+                player.setUsername(rs.getString("username"));
+                player.setBalance(rs.getInt("balance"));
+                leaderboard.add(player);
+            }
+            return leaderboard;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return leaderboard; // leaderboard will be NULL
     }
 }

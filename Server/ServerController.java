@@ -2,6 +2,10 @@ package Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import Resources.Player;
 
 public class ServerController {
     ServerModel model;
@@ -31,6 +35,13 @@ No Back-End Support: Server does not require a separate back-end system.
             e.printStackTrace();
         }
 
+    }
+    protected ArrayList<String> parseLeaderboard()
+    {
+        Collection<Player> leaderboard = model.getLeaderboard();
+        ArrayList<String> lines = new ArrayList<String>();
+        // parse leaderboard data into strings
+        return lines;
     }
     public void quit()
     {
