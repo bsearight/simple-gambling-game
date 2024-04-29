@@ -16,7 +16,9 @@ public class ClientLeaderboardPane
     private void init()
     {
         System.out.println("Entered: Client Leaderboard initiator");
-        leaderboard = new JTextArea(controller.getLeaderboard());
+        leaderboard = new JTextArea();
+        leaderboard.setRows(10);
+        leaderboard.setText(controller.getLeaderboard());
         JOptionPane.showMessageDialog(null, leaderboard, "Leaderboard", JOptionPane.INFORMATION_MESSAGE);
     }
 }

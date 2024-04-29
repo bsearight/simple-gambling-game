@@ -32,7 +32,7 @@ No Back-End Support: Server does not require a separate back-end system.
             System.out.println("waiting for clients: ");
             Socket serverSocket = server.accept(); //socket endpoint for communication, once request is received it is filled.
             System.out.println("Client Connected");
-            Thread thread = new Thread(new ServerConnectionHandler(serverSocket));
+            Thread thread = new Thread(new ServerConnectionHandler(serverSocket, this, model));
             thread.start();
         } catch (IOException e) {
             e.printStackTrace();

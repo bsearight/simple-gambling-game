@@ -75,7 +75,6 @@ public class ServerModel
         if (hash == p.getPHash()) return true;
         else return false;
     }
-
     protected Collection<Player> getLeaderboard() {
         Collection<Player> leaderboard = new ArrayList<Player>();
         try {

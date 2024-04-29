@@ -13,13 +13,13 @@ import java.util.Objects;
 class ServerConnectionHandler implements Runnable
 {
     private Socket clientSocket;
-    ServerController server;
+    ServerController controller;
     ServerModel model;
-    public ServerConnectionHandler(Socket socket)
+    public ServerConnectionHandler(Socket socket, ServerController controller, ServerModel model)
     {
         this.clientSocket = socket;
-        server = new ServerController();
-        model = new ServerModel(server);
+        this.controller = controller;
+        this.model = model;
     }
 
     @Override
@@ -89,7 +89,7 @@ class ServerConnectionHandler implements Runnable
 
     }
     private void leaderboard(PrintWriter writer) {
-        ArrayList<String> leaderboard = server.parseLeaderboard();
+        ArrayList<String> leaderboard = controller.parseLeaderboard();
         for (String line : leaderboard) {
             writer.println(line);
         }
