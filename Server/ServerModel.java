@@ -103,4 +103,64 @@ public class ServerModel
         }
         return leaderboard;
     }
+    protected Player getPlayer(String username)
+    {
+        Player player = new Player();
+        try 
+        {
+            String cmd = "SELECT id, username, balance FROM player WHERE username = ?;";
+            PreparedStatement ps = connection.prepareStatement(cmd);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                player.setId(rs.getInt("id"));
+                player.setUsername(rs.getString("username"));
+                player.setBalance(rs.getInt("balance"));
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return player;
+    }
+    protected Player getPlayer(int id)
+    {
+        Player player = new Player();
+        try 
+        {
+            String cmd = "SELECT id, username, balance FROM player WHERE id = ?;";
+            PreparedStatement ps = connection.prepareStatement(cmd);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                player.setId(rs.getInt("id"));
+                player.setUsername(rs.getString("username"));
+                player.setBalance(rs.getInt("balance"));
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return player;
+    }
+    protected void updatePlayer(Player player)
+    {
+        try 
+        {
+            String cmd = "UPDATE player SET username = ?, balance = ? WHERE id = ?;";
+            PreparedStatement ps = connection.prepareStatement(cmd);
+            ps.setString(1, player.getUsername());
+            ps.setInt(2, player.getBalance());
+            ps.setInt(3, player.getId());
+            ps.executeQuery();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

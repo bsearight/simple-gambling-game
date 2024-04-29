@@ -16,7 +16,7 @@ import Resources.Player;
 public class ClientController
 {
     private final ClientModel model;
-    public ClientView view;
+    public ClientMainMenuView view;
     boolean loginSuccess = false;
     private String phash;
     Socket clientSocket;
@@ -29,7 +29,7 @@ public class ClientController
     public ClientController()
     {
         model = new ClientModel(this);
-        view = new ClientView(this);
+        view = new ClientMainMenuView(this);
         init();
     }
     /*Client Logic:
@@ -128,6 +128,10 @@ GUI: Drives all other logic through a graphical user interface.
         // connect to server and request coin flip results
         // remember to reauth with isLoggedIn()
         return 1; // 1 is heads, 0 is tails
+    }
+    protected void confirmBetting(int bet)
+    {
+        // connect to server and submit bet value
     }
     public void quit()
     {

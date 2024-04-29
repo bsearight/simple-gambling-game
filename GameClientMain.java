@@ -1,6 +1,6 @@
 import Client.ClientController;
 
-public class CoinFlipClient
+public class GameClientMain
 {
     public static void main(String[] args)
     {
