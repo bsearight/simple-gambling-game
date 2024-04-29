@@ -1,6 +1,6 @@
 import Server.ServerController;
 
-public class CoinFlipServer
+public class GameServerMain
 {
     public static void main(String[] args)
     {

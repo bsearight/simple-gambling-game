@@ -5,6 +5,7 @@ public class Player
     String username;
     String pHash;
     int balance;
+    int betValue;
 
     public int getId() {
         return this.id;
@@ -36,5 +37,13 @@ public class Player
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+    public void setBetValue(int betValue)
+    {
+        this.betValue = betValue;
+    }
+    public int getBetValue()
+    {
+        return this.betValue;
     }
 }

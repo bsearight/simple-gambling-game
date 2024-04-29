@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-public class ClientView
+public class ClientMainMenuView
 {
     private ClientController controller;
     private JFrame frame;
@@ -35,7 +35,7 @@ public class ClientView
     private boolean isGameViewOpen = false;
 
 
-    public ClientView(ClientController controller)
+    public ClientMainMenuView(ClientController controller)
     {
         this.controller = controller;
         init();
