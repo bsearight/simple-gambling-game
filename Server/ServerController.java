@@ -84,6 +84,10 @@ No Back-End Support: Server does not require a separate back-end system.
     {
         // take player balance and modify by the logged bet value
     }
+    protected void addNewPlayer(String username, String password)
+    {
+        model.addNewPlayer(username, password);
+    }
     public void quit()
     {
         try

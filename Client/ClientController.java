@@ -16,7 +16,7 @@ import Resources.Player;
 public class ClientController
 {
     private final ClientModel model;
-    public ClientMainMenuView view;
+    public final ClientMainMenuView view;
     boolean loginSuccess = false;
     private String phash;
     Socket clientSocket;
@@ -67,8 +67,9 @@ GUI: Drives all other logic through a graphical user interface.
         phash = DigestUtils.md5Hex(password);
         System.out.println(phash);
         model.setCurrentPlayer(username, phash);
-        view.setIsLoggedIn(isLoggedIn());
-        return isLoggedIn();
+        boolean retval = isLoggedIn();
+        view.setIsLoggedIn(retval);
+        return retval;
     }
     public void logout()
     {
@@ -137,6 +138,42 @@ GUI: Drives all other logic through a graphical user interface.
     {
         // connect to server and request duplicate user check
         // return a boolean to the Register Pane
+        return false;
+    }
+    protected boolean registerUser(String username, String password)
+    {
+        if (offline == true)
+        {
+            view.setIsLoggedIn(true);
+            return true;
+        }
+        phash = DigestUtils.md5Hex(password);
+        System.out.println(phash);
+        model.setCurrentPlayer(username, phash);
+        boolean retval = createPlayer();
+        view.setIsLoggedIn(retval);
+        return retval;
+    }
+    private boolean createPlayer()
+    {
+        Player current = model.getCurrentPlayer();
+        writer.println("create_user");
+        writer.println(current.getUsername());
+        writer.println(current.getPHash());
+        try
+        {
+            if((retval = reader.readLine()) != null) {
+                    if (retval.equals("ack"))
+                    {
+                        return true;
+                    }
+                    else return false;
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         return false;
     }
     public void quit()
