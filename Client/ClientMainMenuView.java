@@ -30,6 +30,7 @@ public class ClientMainMenuView
     private JButton quitButton;
     private JButton quitButton2;
     private JButton leaderboardButton;
+    private JButton registerButton;
     private ImageIcon icon;
     private boolean isLoggedIn = false;
     private boolean isGameViewOpen = false;
@@ -113,6 +114,10 @@ public class ClientMainMenuView
     {
         frame.setVisible(true);
     }
+    private void openRegisterPane()
+    {
+        new ClientRegisterPane(controller);
+    }
     private void initButtons()
     {
         playButton = new JButton("Play");
@@ -170,6 +175,15 @@ public class ClientMainMenuView
             public void actionPerformed(ActionEvent e)
             {
                 openLeaderboard();
+            }
+        });
+        registerButton = new JButton("Register");
+        registerButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                openRegisterPane();
             }
         });
     }

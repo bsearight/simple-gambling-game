@@ -4,15 +4,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 import Resources.Player;
 
 public class ServerController {
     ServerModel model;
     ServerSocket server;
+    Player currentPlayer;
     public ServerController()
     {
         model = new ServerModel(this);
+        currentPlayer = new Player();
         init();
     }
 /*
@@ -46,6 +49,40 @@ No Back-End Support: Server does not require a separate back-end system.
         }
 
         return lines;
+    }
+    protected String userAuth(String username, String password)
+    {
+        currentPlayer.setUsername(username);
+        currentPlayer.setPHash(password);
+        boolean retval = model.userAuth(currentPlayer);
+        if (retval == true)
+        {
+            loadPlayer(username);
+            return "auth_confirm";
+        }
+        else return "auth_failure";
+    }
+    private void loadPlayer(String username)
+    {
+        currentPlayer = model.getPlayer(username);
+    }
+    private void loadPlayer(int id)
+    {
+        currentPlayer = model.getPlayer(id);
+    }
+    protected int getCoinFlipResult()
+    {
+        Random random = new Random();
+        return random.nextInt(2);
+    }
+    protected int getDiceRollResult()
+    {
+        Random random = new Random();
+        return random.nextInt(6) + 1;
+    }
+    protected void calculatePlayerBalance()
+    {
+        // take player balance and modify by the logged bet value
     }
     public void quit()
     {

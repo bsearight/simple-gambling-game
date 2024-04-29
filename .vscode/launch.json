@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GameServerMain",
+            "request": "launch",
+            "mainClass": "GameServerMain",
+            "projectName": "Final Project_a8c592b9"
+        },
+        {
+            "type": "java",
+            "name": "GameClientMain",
+            "request": "launch",
+            "mainClass": "GameClientMain",
+            "projectName": "Final Project_a8c592b9"
+        },
+        {
+            "type": "java",
             "name": "CoinFlipServer",
             "request": "launch",
             "mainClass": "CoinFlipServer",

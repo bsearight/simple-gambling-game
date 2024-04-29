@@ -24,12 +24,8 @@ public class ServerModel
             connection = DriverManager.getConnection(uri);
             System.out.println("Successfully connected to database.");
             Statement st = connection.createStatement();
-            String drop = "DROP TABLE IF EXISTS player;";
-            st.execute(drop);
-            String cmd = "CREATE TABLE IF NOT EXISTS player (player_ID INT NOT NULL PRIMARY KEY, username varchar(30) NOT NULL, password VARCHAR(30) NOT NULL, balance INT DEFAULT 100);";
+            String cmd = "CREATE TABLE IF NOT EXISTS player (id INTEGER PRIMARY KEY, username TEXT, password TEXT, balance INTEGER DEFAULT 1000);";
             st.execute(cmd);
-            cmd = String.format("INSERT INTO player (player_ID, username, password, balance) VALUES (%d, '%s', '%s', %d);", 1, "sas","63c728094326428181dbf7c15247035f", 1000);
-            st.executeUpdate(cmd);
         }
         catch (SQLException e)
         {
@@ -41,15 +37,12 @@ public class ServerModel
     {
         try
         {
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT MAX(player_ID) FROM player");
-            int maxID = 0;
-            if (rs.next()) {
-                maxID = rs.getInt(1);
-            }
-            int player_ID = maxID + 1;
-            String cmd = String.format("INSERT INTO player (player_ID, username, password, balance) VALUES (%d, '%s', '%s', %d);", player_ID, username, pHash, 1000);
-            st.execute(cmd);
+            String cmd = "INSERT INTO player (username, password, balance) VALUES (?, ?, ?);";
+            PreparedStatement ps = connection.prepareStatement(cmd);
+            ps.setString(1, username);
+            ps.setString(2, pHash);
+            ps.setInt(3, 1000);
+            ps.executeUpdate();
         }
         catch (SQLException e)
         {
@@ -62,7 +55,7 @@ public class ServerModel
         String hash = "";
         try
         {
-            String cmd = "SELECT password FROM player WHERE player_ID = ?;";
+            String cmd = "SELECT password FROM player WHERE id = ?;";
             PreparedStatement ps = connection.prepareStatement(cmd);
             ps.setInt(1, p.getId());
             ResultSet rs = ps.executeQuery();
@@ -87,19 +80,17 @@ public class ServerModel
         Collection<Player> leaderboard = new ArrayList<Player>();
         try {
             Statement st = connection.createStatement();
-            String cmd = "SELECT player_ID, username, balance FROM player ORDER BY balance DESC;"; // Fetch all players ordered by balance
+            String cmd = "SELECT id, username, balance FROM player ORDER BY balance DESC;"; // Fetch all players ordered by balance
             ResultSet rs = st.executeQuery(cmd);
             while (rs.next()) {
                 Player player = new Player();
-                player.setId(rs.getInt("player_ID"));
+                player.setId(rs.getInt("id"));
                 player.setUsername(rs.getString("username"));
                 player.setBalance(rs.getInt("balance"));
                 leaderboard.add(player);
             }
-            rs.close(); // Close the ResultSet
-            st.close(); // Close the Statement
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle exceptions properly in your application
+            e.printStackTrace();
         }
         return leaderboard;
     }
@@ -162,5 +153,22 @@ public class ServerModel
         {
             e.printStackTrace();
         }
+    }
+    protected boolean checkDuplicateUser(String username)
+    {
+        try 
+        {
+            String cmd = "SELECT * FROM player WHERE username = ?;";
+            PreparedStatement ps = connection.prepareStatement(cmd);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return true;
+            else return false;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

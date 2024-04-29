@@ -133,6 +133,12 @@ GUI: Drives all other logic through a graphical user interface.
     {
         // connect to server and submit bet value
     }
+    protected boolean checkDuplicateUser(String username)
+    {
+        // connect to server and request duplicate user check
+        // return a boolean to the Register Pane
+        return false;
+    }
     public void quit()
     {
         try 
