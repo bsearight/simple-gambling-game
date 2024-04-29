@@ -74,7 +74,9 @@ GUI: Drives all other logic through a graphical user interface.
     {
         view.setIsLoggedIn(false);
         try {
-            writer.close();
+            if(writer != null) {
+                writer.close();
+            }
             clientSocket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -85,53 +87,41 @@ GUI: Drives all other logic through a graphical user interface.
         // confirm whether the current user is logged in on the server
         // this is a security measure to prevent spoofing logins locally
         // returns a boolean indicating whether it succeeded or not
-        final Player current = model.getCurrentPlayer();
+        Player current = model.getCurrentPlayer();
         writer.println("auth_user_hash");
         writer.println(current.getUsername());
         writer.println(current.getPHash());
+        writer.println(current.getBalance());
         try
         {
             if((retval = reader.readLine()) != null) {
-                System.out.println(retval);
+                    if (retval.equals("ack"))
+                    {
+                        return true;
+                    }
+                    else return false;
             }
         }
         catch (IOException e)
         {
             e.printStackTrace();
-        }
-        if (retval != null)
-        {
-            if (retval.equals("auth_confirm"))
-            {
-                return true;
-            }
-            else return false;
         }
         return false;
     }
-    public String getLeaderboard()
-    {
+    public String getLeaderboard() {
+        System.out.println("ClientController: Entered getLeaderboard()");
         writer.println("get_leaderboard");
-        int numLines = 0;
-        StringBuilder retval = new StringBuilder();
-        try 
-        {
-            String count = reader.readLine();
-            numLines = Integer.parseInt(count);
-            for (int i = 0; i < numLines; i++)
-            {
-                retval.append(reader.readLine()).append("\n");
-            }
-        }
-        catch (IOException e)
-        {
+        String retval = ""; // Define retval outside the try block
+        try {
+            retval = reader.readLine();
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (NumberFormatException e)
-        {
+            // Handle the exception, such as logging or returning a default value
+        } catch (NumberFormatException e) {
             e.printStackTrace();
+            // Handle the exception, such as logging or returning a default value
         }
-        return retval.toString();
+        return retval;
     }
     protected int getCoinFlip()
     {
