@@ -11,10 +11,12 @@ import Resources.Player;
 public class ServerController {
     ServerModel model;
     ServerSocket server;
+    Collection<Player> loggedInPlayers;
     Player currentPlayer;
     public ServerController()
     {
         model = new ServerModel(this);
+        loggedInPlayers = new ArrayList<Player>();
         currentPlayer = new Player();
         init();
     }

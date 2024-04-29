@@ -24,7 +24,7 @@ public class ServerModel
             connection = DriverManager.getConnection(uri);
             System.out.println("Successfully connected to database.");
             Statement st = connection.createStatement();
-            String cmd = "CREATE TABLE IF NOT EXISTS player (id INTEGER PRIMARY KEY, username TEXT, password TEXT, balance INTEGER DEFAULT 1000);";
+            String cmd = "CREATE TABLE IF NOT EXISTS player (id INTEGER PRIMARY KEY, username TEXT, password TEXT, balance INTEGER DEFAULT 1000, betValue INTEGER);";
             st.execute(cmd);
         }
         catch (SQLException e)
@@ -141,11 +141,12 @@ public class ServerModel
     {
         try 
         {
-            String cmd = "UPDATE player SET username = ?, balance = ? WHERE id = ?;";
+            String cmd = "UPDATE player SET username = ?, balance = ?, betValue = ? WHERE id = ?;";
             PreparedStatement ps = connection.prepareStatement(cmd);
             ps.setString(1, player.getUsername());
             ps.setInt(2, player.getBalance());
-            ps.setInt(3, player.getId());
+            ps.setInt(3, player.getBetValue());
+            ps.setInt(4, player.getId());
             ps.executeQuery();
         }
         catch(SQLException e)

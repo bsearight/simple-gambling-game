@@ -8,16 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
-public class ClientCoinFlipGameView extends ClientGameView
+public class ClientDiceRollGameView extends ClientGameView
 {
-    private static final int HEADS = 1;
-    private static final int TAILS = 0;
     private ClientController controller;
     private JFrame frame;
     private JButton quitButton;
@@ -28,21 +26,24 @@ public class ClientCoinFlipGameView extends ClientGameView
     private JPanel defaultState;
     private JPanel postBetState;
     private JPanel cleanupState;
-    private JLabel coinFlip;
-    private JLabel coinHeads;
-    private JLabel coinTails;
+    private JLabel diceRoll;
+    private JLabel dice1;
+    private JLabel dice2;
+    private JLabel dice3;
+    private JLabel dice4;
+    private JLabel dice5;
+    private JLabel dice6;
     private ImageIcon icon;
-    private boolean confirmBetting;
 
-    public ClientCoinFlipGameView(ClientController controller)
+    public ClientDiceRollGameView(ClientController controller)
     {
         this.controller = controller;
         init();
     }
     private void init()
     {
-        frame = new JFrame("Coin Flip Game");
-        switchPanel = new JPanel(new CardLayout());
+        frame = new JFrame("Dice Roll Game");
+        switchPanel = new JPanel(new CardLayout()); 
         defaultState = new JPanel(new FlowLayout(FlowLayout.CENTER));
         postBetState = new JPanel(new BorderLayout());
         cleanupState = new JPanel(new BorderLayout());
@@ -51,13 +52,17 @@ public class ClientCoinFlipGameView extends ClientGameView
         switchPanel.add(postBetState, "Post Bet");
         switchPanel.add(cleanupState, "Cleanup");
         frame.add(BorderLayout.CENTER, switchPanel);
-        coinFlip = getIcon("/Resources/coinflip.gif");
-        coinHeads = getIcon("/Resources/coinheads.png");
-        coinTails = getIcon("/Resources/cointails.png");
+        diceRoll = getIcon("/Resources/diceroll.gif");
+        dice1 = getIcon("/Resources/diceroll1.png");
+        dice2 = getIcon("/Resources/diceroll2.png");
+        dice3 = getIcon("/Resources/diceroll3.png");
+        dice4 = getIcon("/Resources/diceroll4.png");
+        dice5 = getIcon("/Resources/diceroll5.png");
+        dice6 = getIcon("/Resources/diceroll6.png");
         defaultState.add(betButton, BorderLayout.SOUTH);
         defaultState.add(quitButton, BorderLayout.SOUTH);
         postBetState.add(flipButton, BorderLayout.SOUTH);
-        postBetState.add(coinFlip, BorderLayout.CENTER);
+        postBetState.add(diceRoll, BorderLayout.CENTER);
         cleanupState.add(okayButton, BorderLayout.SOUTH);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter()
@@ -110,17 +115,29 @@ public class ClientCoinFlipGameView extends ClientGameView
     private void cleanupState(int result)
     {
         CardLayout layout = (CardLayout) switchPanel.getLayout();
-        if (result == HEADS)
+        switch (result)
         {
-            cleanupState.add(coinHeads, BorderLayout.CENTER);
-        }
-        else if (result == TAILS)
-        {
-            cleanupState.add(coinTails, BorderLayout.CENTER);
-        }
-        else
-        {
+            case 1:
+            cleanupState.add(dice1, BorderLayout.CENTER);
+            break;
+            case 2:
+            cleanupState.add(dice2, BorderLayout.CENTER);
+            break;
+            case 3:
+            cleanupState.add(dice3, BorderLayout.CENTER);
+            break;
+            case 4:
+            cleanupState.add(dice4, BorderLayout.CENTER);
+            break;
+            case 5:
+            cleanupState.add(dice5, BorderLayout.CENTER);
+            break;
+            case 6:
+            cleanupState.add(dice6, BorderLayout.CENTER);
+            break;
+            default:
             cleanupState.add(new JLabel("result error"));
+            break;
         }
         layout.show(switchPanel, "Cleanup");
     }
@@ -147,12 +164,12 @@ public class ClientCoinFlipGameView extends ClientGameView
             }
         });
         flipButton = new JButton("Flip");
-        flipButton.addActionListener(new ActionListener() 
+        flipButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                cleanupState(controller.getCoinFlip());
+                cleanupState(controller.getDiceRoll());
             }
         });
         okayButton = new JButton("Okay");

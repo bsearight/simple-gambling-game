@@ -74,12 +74,13 @@ GUI: Drives all other logic through a graphical user interface.
     public void logout()
     {
         view.setIsLoggedIn(false);
-        try {
-            if(writer != null) {
-                writer.close();
-            }
-            clientSocket.close();
-        } catch (IOException e) {
+        try
+        {
+            if (writer != null) writer.close();
+            if (clientSocket != null) clientSocket.close();
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
     }
@@ -127,8 +128,11 @@ GUI: Drives all other logic through a graphical user interface.
     protected int getCoinFlip()
     {
         // connect to server and request coin flip results
-        // remember to reauth with isLoggedIn()
         return 1; // 1 is heads, 0 is tails
+    }
+    protected int getDiceRoll()
+    {
+        return 4;
     }
     protected void confirmBetting(int bet)
     {

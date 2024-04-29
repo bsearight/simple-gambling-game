@@ -24,7 +24,8 @@ public class ClientMainMenuView
     private JPanel loggedIn;
     private JPanel loggedOut;
     private JLabel title;
-    private JButton playButton;
+    private JButton playCoinFlipButton;
+    private JButton playDiceRollButton;
     private JButton loginButton;
     private JButton logoutButton;
     private JButton quitButton;
@@ -34,6 +35,8 @@ public class ClientMainMenuView
     private ImageIcon icon;
     private boolean isLoggedIn = false;
     private boolean isGameViewOpen = false;
+    private static final int COIN_FLIP = 0;
+    private static final int DICE_ROLL = 1;
 
 
     public ClientMainMenuView(ClientController controller)
@@ -49,11 +52,13 @@ public class ClientMainMenuView
         switchPanel = new JPanel(new CardLayout());
         title = getIcon();
         initButtons();
-        loggedIn.add(playButton);
+        loggedIn.add(playCoinFlipButton);
+        loggedIn.add(playDiceRollButton);
         loggedIn.add(logoutButton);
         loggedIn.add(leaderboardButton);
         loggedIn.add(quitButton2);
         loggedOut.add(loginButton);
+        loggedOut.add(registerButton);
         loggedOut.add(quitButton);
         switchPanel.add(loggedOut, "loggedOut");
         switchPanel.add(loggedIn, "loggedIn");
@@ -83,9 +88,10 @@ public class ClientMainMenuView
         if (icon != null) return new JLabel(icon);
         else return new JLabel("image not found");
     }
-    private void openGameView()
+    private void openGameView(int option)
     {
-        new ClientCoinFlipGameView(controller);
+        if (option == COIN_FLIP) new ClientCoinFlipGameView(controller);
+        else if (option == DICE_ROLL) new ClientDiceRollGameView(controller);
     }
     private void openLoginPane()
     {
@@ -120,14 +126,25 @@ public class ClientMainMenuView
     }
     private void initButtons()
     {
-        playButton = new JButton("Play");
-        playButton.addActionListener(new ActionListener() 
+        playCoinFlipButton = new JButton("Play Coin Flip");
+        playCoinFlipButton.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
                 isGameViewOpen = true;
-                openGameView();
+                openGameView(COIN_FLIP);
+                frame.setVisible(false);
+            }
+        });
+        playDiceRollButton = new JButton("Play Dice Roll");
+        playDiceRollButton.addActionListener(new ActionListener() 
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                isGameViewOpen = true;
+                openGameView(DICE_ROLL);
                 frame.setVisible(false);
             }
         });

@@ -19,6 +19,7 @@ public class ClientRegisterPane
     {
         username = new JTextField();
         password = new JTextField();
+        confirmPassword = new JTextField();
         Object[] contents =
         {
             "Username:", username,
@@ -28,7 +29,7 @@ public class ClientRegisterPane
         int option = JOptionPane.showConfirmDialog(null, contents, "Register", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.YES_OPTION)
         {
-            if (password.getText() == confirmPassword.getText())
+            if (password.getText().equals(confirmPassword.getText()))
             {
                 if (controller.checkDuplicateUser(username.getText()) == false) JOptionPane.showMessageDialog(null, "Registered Successfully!", "", JOptionPane.INFORMATION_MESSAGE);
                 else JOptionPane.showMessageDialog(null, "Username already exists", "Error", JOptionPane.ERROR_MESSAGE);
