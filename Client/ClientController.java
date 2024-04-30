@@ -74,15 +74,6 @@ GUI: Drives all other logic through a graphical user interface.
     public void logout()
     {
         view.setIsLoggedIn(false);
-        try
-        {
-            if (writer != null) writer.close();
-            if (clientSocket != null) clientSocket.close();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
     }
     public boolean isLoggedIn()
     {
@@ -130,12 +121,6 @@ GUI: Drives all other logic through a graphical user interface.
     {
         // connect to server and submit bet value
     }
-    protected boolean checkDuplicateUser(String username)
-    {
-        // connect to server and request duplicate user check
-        // return a boolean to the Register Pane
-        return false;
-    }
     protected boolean registerUser(String username, String password)
     {
         phash = DigestUtils.md5Hex(password);
@@ -159,7 +144,7 @@ GUI: Drives all other logic through a graphical user interface.
         {
             e.printStackTrace();
         }
-        if (retval.equals("create_confirm")) return true;
+        if (retval == "create_confirm") return true;
         else return false;
     }
     public void quit()

@@ -31,12 +31,8 @@ public class ClientRegisterPane
         {
             if (password.getText().equals(confirmPassword.getText()))
             {
-                if (controller.checkDuplicateUser(username.getText()) == false)
-                {
-                    controller.registerUser(username.getText(), password.getText());
-                    JOptionPane.showMessageDialog(null, "Registered Successfully!", "", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else JOptionPane.showMessageDialog(null, "Username already exists", "Error", JOptionPane.ERROR_MESSAGE);
+                if (controller.registerUser(username.getText(), password.getText())) JOptionPane.showMessageDialog(null, "Registered Successfully!", "", JOptionPane.INFORMATION_MESSAGE);
+                else JOptionPane.showMessageDialog(null, "User already exists", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else JOptionPane.showMessageDialog(null, "Password does not match", "Error", JOptionPane.ERROR_MESSAGE);
         }

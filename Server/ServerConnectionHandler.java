@@ -77,6 +77,7 @@ class ServerConnectionHandler implements Runnable
             String password = "";
             username = reader.readLine();
             password = reader.readLine();
+            System.out.println(password);
             String retval = controller.userAuth(username, password);
             writer.println(retval);
         }
@@ -126,9 +127,8 @@ class ServerConnectionHandler implements Runnable
             System.out.format("username: %s\n", username);
             password = reader.readLine();
             System.out.format("password: %s\n", password);
-            writer.println("create_confirm");
-            model.addNewPlayer(username, password);
-            System.out.println("user_created");
+            String retval = model.addNewPlayer(username, password);
+            writer.println(retval);
         }
         catch (IOException e)
         {

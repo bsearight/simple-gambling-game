@@ -54,11 +54,9 @@ No Back-End Support: Server does not require a separate back-end system.
     }
     protected String userAuth(String username, String password)
     {
-        System.out.println("user_login");
         currentPlayer.setUsername(username);
         currentPlayer.setPHash(password);
-        Player currentPlayer = model.getPlayer(username);
-        boolean retval = model.userAuth(currentPlayer);
+        boolean retval = model.userAuth(username, password);
         if (retval == true) return "auth_confirm";
         else return "auth_failure";
     }
