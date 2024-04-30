@@ -79,23 +79,23 @@ public class ServerModel
         return false;
     }
 
-    protected Collection<Player> getLeaderboard() {
-        Collection<Player> leaderboard = new ArrayList<Player>();
+    protected String getLeaderboard()
+    {
+        StringBuilder builder = new StringBuilder();
         try {
             Statement st = connection.createStatement();
-            String cmd = "SELECT id, username, balance FROM player ORDER BY balance DESC;"; // Fetch all players ordered by balance
+            String cmd = "SELECT username, balance FROM player ORDER BY balance DESC LIMIT 10;"; // Fetch all players ordered by balance
             ResultSet rs = st.executeQuery(cmd);
-            while (rs.next()) {
-                Player player = new Player();
-                player.setId(rs.getInt("id"));
-                player.setUsername(rs.getString("username"));
-                player.setBalance(rs.getInt("balance"));
-                leaderboard.add(player);
+            while (rs.next())
+            {
+                builder.append(rs.getString("username")).append(": ").append(rs.getInt("balance")).append("\n");
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
         }
-        return leaderboard;
+        return builder.toString();
     }
     protected Player getPlayer(String username)
     {

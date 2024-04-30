@@ -39,7 +39,6 @@ class ServerConnectionHandler implements Runnable
                         auth_user(writer, reader);
                         break;
                     case "get_leaderboard":
-                        //send leaderboard
                         System.out.println("Server: Entering leaderboard()");
                         leaderboard(writer);
                         break;
@@ -90,10 +89,8 @@ class ServerConnectionHandler implements Runnable
 
     private void leaderboard(PrintWriter writer)
     {
-        ArrayList<String> leaderboard = controller.parseLeaderboard();
-        for (String line : leaderboard) {
-            writer.println(line);
-        }
+        String retval = model.getLeaderboard();
+        writer.println(retval);
     }
 
 

@@ -96,15 +96,14 @@ GUI: Drives all other logic through a graphical user interface.
     public String getLeaderboard() {
         System.out.println("ClientController: Entered getLeaderboard()");
         writer.println("get_leaderboard");
-        String retval = ""; // Define retval outside the try block
-        try {
+        String retval = "";
+        try
+        {
             retval = reader.readLine();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
-            // Handle the exception, such as logging or returning a default value
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            // Handle the exception, such as logging or returning a default value
         }
         return retval;
     }

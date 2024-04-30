@@ -40,18 +40,7 @@ No Back-End Support: Server does not require a separate back-end system.
             e.printStackTrace();
         }
     }
-    protected ArrayList<String> parseLeaderboard() {
-        System.out.println("Entered: parseleaderboard");
-        Collection<Player> leaderboard = model.getLeaderboard(); // Retrieve leaderboard using the getLeaderboard() method
-        ArrayList<String> lines = new ArrayList<>();
-
-        for (Player player : leaderboard) {
-            String line = String.format("Player ID: %d, Username: %s, Balance: %d", player.getId(), player.getUsername(), player.getBalance());
-            lines.add(line);
-        }
-
-        return lines;
-    }
+    
     protected String userAuth(String username, String password)
     {
         currentPlayer.setUsername(username);
