@@ -43,7 +43,7 @@ No Back-End Support: Server does not require a separate back-end system.
     protected ArrayList<String> parseLeaderboard() {
         System.out.println("Entered: parseleaderboard");
         Collection<Player> leaderboard = model.getLeaderboard(); // Retrieve leaderboard using the getLeaderboard() method
-        ArrayList<String> lines = new ArrayList<String>();
+        ArrayList<String> lines = new ArrayList<>();
 
         for (Player player : leaderboard) {
             String line = String.format("Player ID: %d, Username: %s, Balance: %d", player.getId(), player.getUsername(), player.getBalance());

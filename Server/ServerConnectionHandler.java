@@ -53,6 +53,9 @@ class ServerConnectionHandler implements Runnable
                     case "confirm_betting":
                         confirm_bet(writer);
                         break;
+                    case "create_user":
+                        create_user(writer, reader);
+                        break;
                     default:
                         break;
                 }
@@ -75,31 +78,42 @@ class ServerConnectionHandler implements Runnable
                 line = reader.readLine();
                 if (i == 0) {
                     uname = line;
+                    System.out.format("uname: %s\n", uname);
                 } else if (i == 1) {
                     pssword = line;
+                    System.out.format("password: %s\n", pssword);
                 }
             }
             System.out.format("uname: %s\n password: %s\n", uname, pssword);
-            model.addNewPlayer(uname, pssword);
-            writer.println("ack");
+            writer.println(controller.userAuth(uname, pssword));
+
         }catch (IOException e)
         {
             throw new RuntimeException(e);
         }
-
     }
+
+
     private void leaderboard(PrintWriter writer) {
         ArrayList<String> leaderboard = controller.parseLeaderboard();
         for (String line : leaderboard) {
             writer.println(line);
         }
     }
+
+
     private void coinflip(PrintWriter writer){
         System.out.println("Java: Received get_coinflip");
+        int Result = controller.getCoinFlipResult();
+        writer.println(Result);
     }
+
+
     private void balance(PrintWriter writer){
         System.out.println("Java: Received get_balance");
     }
+
+
     private void confirm_bet(PrintWriter writer){
         System.out.println("Java: Received confirm_bet");
         //send confirm message,
@@ -107,6 +121,32 @@ class ServerConnectionHandler implements Runnable
         //receive bet amount for heads or tails
 
         //server hold data locally.
+    }
+
+    private void create_user(PrintWriter writer, BufferedReader reader){
+        //receive u_name and p_word from usr. Query database for acc. send ack.
+        System.out.println("Entered: create_user");
+        String line;
+        String uname = "";
+        String pssword = "";
+        try{
+            for(int i = 0; i < 3; i++) {
+                line = reader.readLine();
+                if (i == 0) {
+                    uname = line;
+                    System.out.format("user = %s\n", uname);
+                } else if (i == 1) {
+                    pssword = line;
+                    System.out.format("password = %s\n", pssword);
+                }
+            }
+            model.addNewPlayer(uname, pssword);
+            writer.println("auth_confirm");
+            System.out.println("user_created");
+        }catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public void quit()

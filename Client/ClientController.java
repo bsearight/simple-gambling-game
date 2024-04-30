@@ -93,11 +93,10 @@ GUI: Drives all other logic through a graphical user interface.
         writer.println("auth_user_hash");
         writer.println(current.getUsername());
         writer.println(current.getPHash());
-        writer.println(current.getBalance());
         try
         {
             if((retval = reader.readLine()) != null) {
-                    if (retval.equals("ack"))
+                    if ("auth_confirm".equals(retval))
                     {
                         return true;
                     }
@@ -167,7 +166,7 @@ GUI: Drives all other logic through a graphical user interface.
         try
         {
             if((retval = reader.readLine()) != null) {
-                    if (retval.equals("ack"))
+                    if (retval.equals("auth_confirm"))
                     {
                         return true;
                     }
