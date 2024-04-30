@@ -96,7 +96,7 @@ GUI: Drives all other logic through a graphical user interface.
         try
         {
             if((retval = reader.readLine()) != null) {
-                    if ("auth_confirm".equals(retval))
+                    if (retval == "auth_confirm")
                     {
                         return true;
                     }

@@ -2,6 +2,7 @@ package Server;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 import Resources.Player;
 
@@ -24,6 +25,8 @@ public class ServerModel
             connection = DriverManager.getConnection(uri);
             System.out.println("Successfully connected to database.");
             Statement st = connection.createStatement();
+            //String dropCmd = "DROP TABLE IF EXISTS player;";
+            //st.execute(dropCmd);
             String cmd = "CREATE TABLE IF NOT EXISTS player (id INTEGER PRIMARY KEY, username TEXT, password TEXT, balance INTEGER DEFAULT 1000, betValue INTEGER);";
             st.execute(cmd);
         }
@@ -50,31 +53,30 @@ public class ServerModel
         }
     }
 
-    protected boolean userAuth(Player p)
-    {
+    protected boolean userAuth(Player p) {
         String hash = "";
-        try
-        {
-            String cmd = "SELECT password FROM player WHERE id = ?;";
+        try {
+            String cmd = "SELECT password FROM player WHERE id = ?";
             PreparedStatement ps = connection.prepareStatement(cmd);
             ps.setInt(1, p.getId());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next())
-            {
-                hash = rs.getString("password");
+            ResultSet rs = ps.executeQuery(); // Execute the prepared statement directly
+            if (rs.next()) {
+                hash = rs.getString(1); // Retrieve the password directly from the ResultSet
+                System.out.println("Retrieved hashed password from the database: " + hash);
+                System.out.println("Hashed password provided by the player: " + p.getPHash());
+            } else {
+                System.err.println("Error: Player not found in the database");
+                return false;
             }
-            else
-            {
-                System.out.println("Error: Unknown database failure");
-            }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (hash == p.getPHash()) return true;
-        else return false;
+        if(Objects.equals(hash, p.getPHash())){
+            return true;
+        }
+        return false;
     }
+
     protected Collection<Player> getLeaderboard() {
         Collection<Player> leaderboard = new ArrayList<Player>();
         try {

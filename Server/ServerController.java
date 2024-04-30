@@ -57,7 +57,8 @@ No Back-End Support: Server does not require a separate back-end system.
         currentPlayer.setUsername(username);
         currentPlayer.setPHash(password);
         boolean retval = model.userAuth(currentPlayer);
-        if (retval == true)
+        System.out.format("Controllers userAuth Return: %s\n", retval);
+        if (retval) //simplified to retval, true state's always run, false states don't
         {
             loadPlayer(username);
             return "auth_confirm";

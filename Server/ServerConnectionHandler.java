@@ -57,6 +57,7 @@ class ServerConnectionHandler implements Runnable
                         create_user(writer, reader);
                         break;
                     default:
+                        System.out.format("ServerConnectionHandler: Case For (%s) Not Found", line);
                         break;
                 }
             }
@@ -71,9 +72,9 @@ class ServerConnectionHandler implements Runnable
     private void auth_user(PrintWriter writer, BufferedReader reader){
         //receive u_name and p_word from usr. Query database for acc. send ack.
         String line;
+        String uname = "";
+        String pssword = "";
         try{
-            String uname = "";
-            String pssword = "";
             for(int i = 0; i < 3; i++) {
                 line = reader.readLine();
                 if (i == 0) {
@@ -82,10 +83,13 @@ class ServerConnectionHandler implements Runnable
                 } else if (i == 1) {
                     pssword = line;
                     System.out.format("password: %s\n", pssword);
+                    i = 3;
                 }
             }
             System.out.format("uname: %s\n password: %s\n", uname, pssword);
-            writer.println(controller.userAuth(uname, pssword));
+            String ret = controller.userAuth(uname, pssword);
+            System.out.format("userAuth Return: %s\n", ret);
+            writer.println(ret);
 
         }catch (IOException e)
         {
@@ -138,8 +142,11 @@ class ServerConnectionHandler implements Runnable
                 } else if (i == 1) {
                     pssword = line;
                     System.out.format("password = %s\n", pssword);
+                    i = 3;
                 }
+                System.out.println("still in loop!!!");
             }
+            System.out.println("Escaped for loop?");
             model.addNewPlayer(uname, pssword);
             writer.println("auth_confirm");
             System.out.println("user_created");
