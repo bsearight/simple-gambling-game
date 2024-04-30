@@ -25,9 +25,7 @@ public class ServerModel
             connection = DriverManager.getConnection(uri);
             System.out.println("Successfully connected to database.");
             Statement st = connection.createStatement();
-            //String dropCmd = "DROP TABLE IF EXISTS player;";
-            //st.execute(dropCmd);
-            String cmd = "CREATE TABLE IF NOT EXISTS player (id INTEGER PRIMARY KEY, username TEXT, password TEXT, balance INTEGER DEFAULT 1000, betValue INTEGER);";
+            String cmd = "CREATE TABLE IF NOT EXISTS player (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT, balance INTEGER DEFAULT 1000, betValue INTEGER);";
             st.execute(cmd);
         }
         catch (SQLException e)

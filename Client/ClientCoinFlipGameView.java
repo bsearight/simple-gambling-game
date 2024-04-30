@@ -110,18 +110,9 @@ public class ClientCoinFlipGameView extends ClientGameView
     private void cleanupState(int result)
     {
         CardLayout layout = (CardLayout) switchPanel.getLayout();
-        if (result == HEADS)
-        {
-            cleanupState.add(coinHeads, BorderLayout.CENTER);
-        }
-        else if (result == TAILS)
-        {
-            cleanupState.add(coinTails, BorderLayout.CENTER);
-        }
-        else
-        {
-            cleanupState.add(new JLabel("result error"));
-        }
+        if (result == HEADS) cleanupState.add(coinHeads, BorderLayout.CENTER);
+        else if (result == TAILS) cleanupState.add(coinTails, BorderLayout.CENTER);
+        else cleanupState.add(new JLabel("result error"));
         layout.show(switchPanel, "Cleanup");
     }
     private void initButtons()

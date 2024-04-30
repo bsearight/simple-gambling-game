@@ -54,24 +54,13 @@ No Back-End Support: Server does not require a separate back-end system.
     }
     protected String userAuth(String username, String password)
     {
+        System.out.println("user_login");
         currentPlayer.setUsername(username);
         currentPlayer.setPHash(password);
+        Player currentPlayer = model.getPlayer(username);
         boolean retval = model.userAuth(currentPlayer);
-        System.out.format("Controllers userAuth Return: %s\n", retval);
-        if (retval) //simplified to retval, true state's always run, false states don't
-        {
-            loadPlayer(username);
-            return "auth_confirm";
-        }
+        if (retval == true) return "auth_confirm";
         else return "auth_failure";
-    }
-    private void loadPlayer(String username)
-    {
-        currentPlayer = model.getPlayer(username);
-    }
-    private void loadPlayer(int id)
-    {
-        currentPlayer = model.getPlayer(id);
     }
     protected int getCoinFlipResult()
     {

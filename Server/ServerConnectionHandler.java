@@ -35,7 +35,7 @@ class ServerConnectionHandler implements Runnable
             while((line = reader.readLine()) != null)
             {
                 switch(line) {
-                    case "auth_user_hash":
+                    case "auth_user":
                         auth_user(writer, reader);
                         break;
                     case "get_leaderboard":
@@ -69,36 +69,26 @@ class ServerConnectionHandler implements Runnable
     }
     //add private functions for each case.
 
-    private void auth_user(PrintWriter writer, BufferedReader reader){
-        //receive u_name and p_word from usr. Query database for acc. send ack.
-        String line;
-        String uname = "";
-        String pssword = "";
-        try{
-            for(int i = 0; i < 3; i++) {
-                line = reader.readLine();
-                if (i == 0) {
-                    uname = line;
-                    System.out.format("uname: %s\n", uname);
-                } else if (i == 1) {
-                    pssword = line;
-                    System.out.format("password: %s\n", pssword);
-                    i = 3;
-                }
-            }
-            System.out.format("uname: %s\n password: %s\n", uname, pssword);
-            String ret = controller.userAuth(uname, pssword);
-            System.out.format("userAuth Return: %s\n", ret);
-            writer.println(ret);
-
-        }catch (IOException e)
+    private void auth_user(PrintWriter writer, BufferedReader reader)
+    {
+        try
+        {
+            String username = "";
+            String password = "";
+            username = reader.readLine();
+            password = reader.readLine();
+            String retval = controller.userAuth(username, password);
+            writer.println(retval);
+        }
+        catch (IOException e)
         {
             throw new RuntimeException(e);
         }
     }
 
 
-    private void leaderboard(PrintWriter writer) {
+    private void leaderboard(PrintWriter writer)
+    {
         ArrayList<String> leaderboard = controller.parseLeaderboard();
         for (String line : leaderboard) {
             writer.println(line);
@@ -128,29 +118,19 @@ class ServerConnectionHandler implements Runnable
     }
 
     private void create_user(PrintWriter writer, BufferedReader reader){
-        //receive u_name and p_word from usr. Query database for acc. send ack.
-        System.out.println("Entered: create_user");
-        String line;
-        String uname = "";
-        String pssword = "";
-        try{
-            for(int i = 0; i < 3; i++) {
-                line = reader.readLine();
-                if (i == 0) {
-                    uname = line;
-                    System.out.format("user = %s\n", uname);
-                } else if (i == 1) {
-                    pssword = line;
-                    System.out.format("password = %s\n", pssword);
-                    i = 3;
-                }
-                System.out.println("still in loop!!!");
-            }
-            System.out.println("Escaped for loop?");
-            model.addNewPlayer(uname, pssword);
-            writer.println("auth_confirm");
+        String username = "";
+        String password = "";
+        try
+        {
+            username = reader.readLine();
+            System.out.format("username: %s\n", username);
+            password = reader.readLine();
+            System.out.format("password: %s\n", password);
+            writer.println("create_confirm");
+            model.addNewPlayer(username, password);
             System.out.println("user_created");
-        }catch (IOException e)
+        }
+        catch (IOException e)
         {
             throw new RuntimeException(e);
         }

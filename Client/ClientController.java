@@ -86,22 +86,15 @@ GUI: Drives all other logic through a graphical user interface.
     }
     public boolean isLoggedIn()
     {
-        // confirm whether the current user is logged in on the server
-        // this is a security measure to prevent spoofing logins locally
-        // returns a boolean indicating whether it succeeded or not
         Player current = model.getCurrentPlayer();
-        writer.println("auth_user_hash");
+        writer.println("auth_user");
         writer.println(current.getUsername());
         writer.println(current.getPHash());
         try
         {
-            if((retval = reader.readLine()) != null) {
-                    if (retval == "auth_confirm")
-                    {
-                        return true;
-                    }
-                    else return false;
-            }
+            String retval = reader.readLine();
+            if (retval.equals("auth_confirm")) return true;
+            else return false;
         }
         catch (IOException e)
         {
@@ -145,16 +138,10 @@ GUI: Drives all other logic through a graphical user interface.
     }
     protected boolean registerUser(String username, String password)
     {
-        if (offline == true)
-        {
-            view.setIsLoggedIn(true);
-            return true;
-        }
         phash = DigestUtils.md5Hex(password);
         System.out.println(phash);
         model.setCurrentPlayer(username, phash);
         boolean retval = createPlayer();
-        view.setIsLoggedIn(retval);
         return retval;
     }
     private boolean createPlayer()
@@ -163,21 +150,17 @@ GUI: Drives all other logic through a graphical user interface.
         writer.println("create_user");
         writer.println(current.getUsername());
         writer.println(current.getPHash());
+        String retval = "";
         try
         {
-            if((retval = reader.readLine()) != null) {
-                    if (retval.equals("auth_confirm"))
-                    {
-                        return true;
-                    }
-                    else return false;
-            }
+            retval = reader.readLine();
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        return false;
+        if (retval.equals("create_confirm")) return true;
+        else return false;
     }
     public void quit()
     {
