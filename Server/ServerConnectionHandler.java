@@ -1,5 +1,4 @@
 package Server;
-import Resources.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,8 +61,6 @@ class ServerConnectionHandler implements Runnable
             throw new RuntimeException(e);
         }
     }
-    //add private functions for each case.
-
     private void auth_user(PrintWriter writer, BufferedReader reader)
     {
         try
@@ -81,7 +78,6 @@ class ServerConnectionHandler implements Runnable
             throw new RuntimeException(e);
         }
     }
-
 
     private void leaderboard(PrintWriter writer)
     {
@@ -152,6 +148,5 @@ class ServerConnectionHandler implements Runnable
     public void quit()
     {
         System.exit(0);
-
     }
 }

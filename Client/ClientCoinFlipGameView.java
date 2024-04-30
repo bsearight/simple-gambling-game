@@ -32,7 +32,6 @@ public class ClientCoinFlipGameView extends ClientGameView
     private JLabel coinHeads;
     private JLabel coinTails;
     private ImageIcon icon;
-    private boolean confirmBetting;
 
     public ClientCoinFlipGameView(ClientController controller)
     {

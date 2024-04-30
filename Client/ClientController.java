@@ -32,13 +32,6 @@ public class ClientController
         view = new ClientMainMenuView(this);
         init();
     }
-    /*Client Logic:
-Communication: Interacts with the server via sockets for data exchange.
-User Authentication: Authenticates users with local password hashing.
-Temporary Local Storage: Stores temporary data locally, fetching/sending server info as needed.
-Leaderboard: Displays players and their cash balances.
-GUI: Drives all other logic through a graphical user interface.
-*/
     private void init()
     {
         // initiate connection with server
@@ -93,8 +86,8 @@ GUI: Drives all other logic through a graphical user interface.
         }
         return false;
     }
-    public String getLeaderboard() {
-        System.out.println("ClientController: Entered getLeaderboard()");
+    public String getLeaderboard()
+    {
         writer.println("get_leaderboard");
         String retval = "";
         try

@@ -16,6 +16,7 @@ public class ClientRegisterPane
         init();
     }
 
+    @SuppressWarnings("deprecation")
     private void init()
     {
         username = new JTextField();

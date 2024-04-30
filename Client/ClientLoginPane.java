@@ -15,6 +15,7 @@ public class ClientLoginPane
         init();
     }
 
+    @SuppressWarnings("deprecation")
     private void init()
     {
         uname = new JTextField();

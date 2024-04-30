@@ -36,7 +36,8 @@ public class ClientMainMenuView
     private JButton registerButton;
     private ImageIcon icon;
     private boolean isLoggedIn = false;
-    private boolean isGameViewOpen = false;
+    @SuppressWarnings("unused")
+    private boolean isGameViewOpen;
     private static final int COIN_FLIP = 0;
     private static final int DICE_ROLL = 1;
 
