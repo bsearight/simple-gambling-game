@@ -109,8 +109,18 @@ GUI: Drives all other logic through a graphical user interface.
     }
     protected int getCoinFlip()
     {
-        // connect to server and request coin flip results
-        return 1; // 1 is heads, 0 is tails
+        writer.println("get_coinflip");
+        String retval = "";
+        try 
+        {
+            retval = reader.readLine();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        int flipResult = Integer.parseInt(retval);
+        return flipResult; // 1 is heads, 0 is tails
     }
     protected int getDiceRoll()
     {
@@ -145,6 +155,16 @@ GUI: Drives all other logic through a graphical user interface.
         }
         if (retval == "create_confirm") return true;
         else return false;
+    }
+    protected String getUsername()
+    {
+        Player current = model.getCurrentPlayer();
+        return current.getUsername();
+    }
+    protected int getBalance()
+    {
+        Player current = model.getCurrentPlayer();
+        return current.getBalance();
     }
     public void quit()
     {

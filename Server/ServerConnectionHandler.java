@@ -43,7 +43,6 @@ class ServerConnectionHandler implements Runnable
                         leaderboard(writer);
                         break;
                     case "get_coinflip":
-                        //generate between 0 and 1 for coinflip
                         coinflip(writer);
                         break;
                     case "get_balance":
@@ -95,9 +94,9 @@ class ServerConnectionHandler implements Runnable
 
 
     private void coinflip(PrintWriter writer){
-        System.out.println("Java: Received get_coinflip");
-        int Result = controller.getCoinFlipResult();
-        writer.println(Result);
+        int retval = controller.getCoinFlipResult();
+        if (retval == 1) writer.println("1");
+        else writer.println("0");
     }
 
 

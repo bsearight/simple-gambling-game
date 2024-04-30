@@ -143,7 +143,8 @@ public class ClientCoinFlipGameView extends ClientGameView
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                cleanupState(controller.getCoinFlip());
+                int retval = controller.getCoinFlip();
+                cleanupState(retval);
             }
         });
         okayButton = new JButton("Okay");

@@ -24,6 +24,8 @@ public class ClientMainMenuView
     private JPanel loggedIn;
     private JPanel loggedOut;
     private JLabel title;
+    private JLabel user;
+    private JLabel balance;
     private JButton playCoinFlipButton;
     private JButton playDiceRollButton;
     private JButton loginButton;
@@ -50,6 +52,8 @@ public class ClientMainMenuView
         loggedIn = new JPanel(new FlowLayout(FlowLayout.CENTER));
         loggedOut = new JPanel(new FlowLayout(FlowLayout.CENTER));
         switchPanel = new JPanel(new CardLayout());
+        user = new JLabel();
+        balance = new JLabel();
         title = getIcon();
         initButtons();
         loggedIn.add(playCoinFlipButton);
@@ -57,12 +61,14 @@ public class ClientMainMenuView
         loggedIn.add(logoutButton);
         loggedIn.add(leaderboardButton);
         loggedIn.add(quitButton2);
+        loggedIn.add(user);
+        loggedIn.add(balance);
         loggedOut.add(loginButton);
         loggedOut.add(registerButton);
         loggedOut.add(quitButton);
         switchPanel.add(loggedOut, "loggedOut");
         switchPanel.add(loggedIn, "loggedIn");
-        frame.add(title, BorderLayout.NORTH);
+        loggedOut.add(title, BorderLayout.NORTH);
         frame.add(switchPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
@@ -100,7 +106,12 @@ public class ClientMainMenuView
     public void switchPanelLogin()
     {
         CardLayout layout = (CardLayout) switchPanel.getLayout();
-        if (isLoggedIn) layout.show(switchPanel, "loggedIn");
+        if (isLoggedIn)
+        {
+            user.setText("User: " + controller.getUsername());
+            balance.setText("Balance: " + Integer.toString(controller.getBalance()));
+            layout.show(switchPanel, "loggedIn");
+        }
         else layout.show(switchPanel, "loggedOut");
     }
     private void openLeaderboard()
