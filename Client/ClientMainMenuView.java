@@ -109,7 +109,7 @@ public class ClientMainMenuView
         if (isLoggedIn)
         {
             user.setText("User: " + controller.getUsername());
-            balance.setText("Balance: " + Integer.toString(controller.getBalance()));
+            balance.setText("Balance: " + controller.getBalance());
             layout.show(switchPanel, "loggedIn");
         }
         else layout.show(switchPanel, "loggedOut");

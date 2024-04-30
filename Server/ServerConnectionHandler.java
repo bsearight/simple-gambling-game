@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
 
 class ServerConnectionHandler implements Runnable
 {
@@ -48,8 +45,8 @@ class ServerConnectionHandler implements Runnable
                     case "get_balance":
                         balance(writer);
                         break;
-                    case "confirm_betting":
-                        confirm_bet(writer);
+                    case "confirm_bet":
+                        confirm_bet(writer, reader);
                         break;
                     case "create_user":
                         create_user(writer, reader);
@@ -100,18 +97,38 @@ class ServerConnectionHandler implements Runnable
     }
 
 
-    private void balance(PrintWriter writer){
-        System.out.println("Java: Received get_balance");
+    private void balance(PrintWriter writer)
+    {
+        int balance = controller.getBalance();
+        writer.println(Integer.toString(balance));
     }
 
 
-    private void confirm_bet(PrintWriter writer){
-        System.out.println("Java: Received confirm_bet");
-        //send confirm message,
-
-        //receive bet amount for heads or tails
-
-        //server hold data locally.
+    private void confirm_bet(PrintWriter writer, BufferedReader reader)
+    {
+        String retval = "";
+        int option = 0;
+        int bet = 0;
+        try
+        {
+            retval = reader.readLine();
+            System.out.println("server received: " + retval);
+            if (retval == "Heads") option = 1;
+            else if (retval == "Tails") option = 0;
+            retval = reader.readLine();
+            bet = Integer.parseInt(retval);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NumberFormatException e)
+        {
+            //dies of cringe
+            //if this happens literally everything will break
+            controller.quit();
+        }
+        controller.confirmBetting(bet, option);
     }
 
     private void create_user(PrintWriter writer, BufferedReader reader){

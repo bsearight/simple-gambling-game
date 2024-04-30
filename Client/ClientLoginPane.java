@@ -2,12 +2,13 @@ package Client;
 
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 public class ClientLoginPane
 {
     ClientController controller;
     JTextField uname;
-    JTextField pword;
+    JPasswordField pword;
     public ClientLoginPane(ClientController controller)
     {
         this.controller = controller;
@@ -17,7 +18,7 @@ public class ClientLoginPane
     private void init()
     {
         uname = new JTextField();
-        pword = new JTextField();
+        pword = new JPasswordField();
         Object[] contents =
         {
             "Username:", uname,

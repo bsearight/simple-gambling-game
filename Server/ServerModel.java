@@ -141,17 +141,19 @@ public class ServerModel
         }
         return player;
     }
-    protected void updatePlayer(Player player)
+    protected void updatePlayer(String username, int balance, int betValue)
     {
+        System.out.println("model's betValue: " + betValue);
+        Player player = getPlayer(username);
         try 
         {
             String cmd = "UPDATE player SET username = ?, balance = ?, betValue = ? WHERE id = ?;";
             PreparedStatement ps = connection.prepareStatement(cmd);
             ps.setString(1, player.getUsername());
-            ps.setInt(2, player.getBalance());
-            ps.setInt(3, player.getBetValue());
+            ps.setInt(2, balance);
+            ps.setInt(3, betValue);
             ps.setInt(4, player.getId());
-            ps.executeQuery();
+            ps.executeUpdate();
         }
         catch(SQLException e)
         {

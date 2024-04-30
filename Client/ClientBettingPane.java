@@ -1,5 +1,6 @@
 package Client;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -24,17 +25,21 @@ public class ClientBettingPane
     private void init()
     {
         JTextField betValue = new JTextField();
+        String[] coinOptions = {"Heads", "Tails"};
+        JComboBox<String> coinOption = new JComboBox<>(coinOptions);
         Object[] contents =
         {
-            "Bet Amount:", betValue
+            "Bet Amount:", betValue,
+            "Coin Option:", coinOption
         };
         int option = JOptionPane.showConfirmDialog(null, contents, "Betting", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.YES_OPTION)
         {
             JOptionPane.showMessageDialog(null, "Bet Placed", "", JOptionPane.INFORMATION_MESSAGE);
+            controller.confirmBetting(betValue.getText(), coinOption.getSelectedItem().toString());
             gameView.confirmBetting();
         }
-            else 
+        else 
         {
             JOptionPane.showMessageDialog(null, "Bet Cancelled", "Error", JOptionPane.ERROR_MESSAGE);
             gameView.cancelBetting();

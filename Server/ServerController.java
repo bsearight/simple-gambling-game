@@ -2,8 +2,6 @@ package Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Random;
 
 import Resources.Player;
@@ -11,22 +9,13 @@ import Resources.Player;
 public class ServerController {
     ServerModel model;
     ServerSocket server;
-    Collection<Player> loggedInPlayers;
-    Player currentPlayer;
+    String username;
+    int userOption;
     public ServerController()
     {
         model = new ServerModel(this);
-        loggedInPlayers = new ArrayList<Player>();
-        currentPlayer = new Player();
         init();
     }
-/*
-Server Logic:
-Concurrent Connections: Handles multiple concurrent socket connections with players.
-Database: Stores player info, including password hashes and balances. Optionally, consider including leaderboard data.
-Game and Betting Logic: Implements actual game and betting logic.
-No Back-End Support: Server does not require a separate back-end system.
-*  */
     private void init() {
         // wait for connections from clients
         try {
@@ -43,8 +32,7 @@ No Back-End Support: Server does not require a separate back-end system.
     
     protected String userAuth(String username, String password)
     {
-        currentPlayer.setUsername(username);
-        currentPlayer.setPHash(password);
+        this.username = username;
         boolean retval = model.userAuth(username, password);
         if (retval == true) return "auth_confirm";
         else return "auth_failure";
@@ -52,16 +40,47 @@ No Back-End Support: Server does not require a separate back-end system.
     protected int getCoinFlipResult()
     {
         Random random = new Random();
-        return random.nextInt(2);
+        int result = random.nextInt(2);
+        calculatePlayerBalance(result);
+        return result;
     }
     protected int getDiceRollResult()
     {
         Random random = new Random();
-        return random.nextInt(6) + 1;
+        int result = random.nextInt(6) + 1;
+        calculatePlayerBalance(result);
+        return result;
     }
-    protected void calculatePlayerBalance()
+    protected void confirmBetting(int bet, int option)
     {
-        // take player balance and modify by the logged bet value
+        Player current = model.getPlayer(username);
+        userOption = option;
+        current.setBetValue(bet);
+        model.updatePlayer(current.getUsername(), current.getBalance(), bet);
+        System.out.println("set user: " + current.getUsername() + " to balance: " + current.getBalance() + " and bet: " + bet);
+    }
+    protected int getBalance()
+    {
+        Player current = model.getPlayer(username);
+        return current.getBalance();
+    }
+    protected void calculatePlayerBalance(int result)
+    {
+        Player current = model.getPlayer(username);
+        int balance = current.getBalance();
+        int bet = current.getBetValue();
+        if (userOption == result) // win
+        {  
+            balance += bet;
+            System.out.println("user won: " + bet);
+        }
+        else // lose
+        {
+            balance -= bet;
+            System.out.println("user lost: " + bet);
+        }
+        System.out.println("new balance: " + balance);
+        model.updatePlayer(username, balance, 0);
     }
     protected void addNewPlayer(String username, String password)
     {

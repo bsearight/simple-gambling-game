@@ -2,13 +2,14 @@ package Client;
 
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 public class ClientRegisterPane
 {
     ClientController controller;
     JTextField username;
-    JTextField password;
-    JTextField confirmPassword;
+    JPasswordField password;
+    JPasswordField confirmPassword;
     public ClientRegisterPane(ClientController controller)
     {
         this.controller = controller;
@@ -18,8 +19,8 @@ public class ClientRegisterPane
     private void init()
     {
         username = new JTextField();
-        password = new JTextField();
-        confirmPassword = new JTextField();
+        password = new JPasswordField();
+        confirmPassword = new JPasswordField();
         Object[] contents =
         {
             "Username:", username,

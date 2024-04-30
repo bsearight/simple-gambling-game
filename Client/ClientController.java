@@ -126,9 +126,11 @@ GUI: Drives all other logic through a graphical user interface.
     {
         return 4;
     }
-    protected void confirmBetting(int bet)
+    protected void confirmBetting(String bet, String option)
     {
-        // connect to server and submit bet value
+        writer.println("confirm_bet");
+        writer.println(option);
+        writer.println(bet);
     }
     protected boolean registerUser(String username, String password)
     {
@@ -161,10 +163,19 @@ GUI: Drives all other logic through a graphical user interface.
         Player current = model.getCurrentPlayer();
         return current.getUsername();
     }
-    protected int getBalance()
+    protected String getBalance()
     {
-        Player current = model.getCurrentPlayer();
-        return current.getBalance();
+        writer.println("get_balance");
+        String retval = "";
+        try
+        {
+            retval = reader.readLine();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return retval;
     }
     public void quit()
     {
