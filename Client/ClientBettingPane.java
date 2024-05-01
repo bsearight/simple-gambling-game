@@ -14,16 +14,16 @@ public class ClientBettingPane
     {
         this.controller = controller;
         this.gameView = gameView;
-        init();
+        initCoinFlip();
     }
     public ClientBettingPane(ClientController controller, ClientDiceRollGameView gameView)
     {
         this.controller = controller;
         this.gameView = gameView;
-        init();
+        initDiceRoll();
     }
 
-    private void init()
+    private void initCoinFlip()
     {
         JTextField betValue = new JTextField();
         String[] coinOptions = {"Heads", "Tails"};
@@ -51,6 +51,65 @@ public class ClientBettingPane
                 String retval = "";
                 if (selectedOption == "Heads") retval = "1";
                 else if (selectedOption == "Tails") retval = "0";
+                controller.confirmBetting(betValue.getText(), retval);
+                gameView.confirmBetting();
+                JOptionPane.showMessageDialog(null, "Bet Placed", "", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else 
+        {
+            JOptionPane.showMessageDialog(null, "Bet Cancelled", "Error", JOptionPane.ERROR_MESSAGE);
+            gameView.cancelBetting();
+        }
+    }
+    
+    private void initDiceRoll()
+    {
+        JTextField betValue = new JTextField();
+        String[] diceOptions = {"One", "Two", "Three", "Four", "Five", "Six"};
+        JComboBox<String> diceOption = new JComboBox<>(diceOptions);
+        Object[] contents =
+        {
+            "Bet Amount:", betValue,
+            "Dice Option:", diceOption
+        };
+        int option = JOptionPane.showConfirmDialog(null, contents, "Betting", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.YES_OPTION)
+        {
+            try
+            {
+                int retval = Integer.parseInt(betValue.getText());
+                if (retval < 1) error();
+            }
+            catch (NumberFormatException e)
+            {
+                error();
+            }
+            if (error == false)
+            {
+                String selectedOption = diceOption.getSelectedItem().toString();
+                String retval = "";
+                switch (selectedOption)
+                {
+                    case "One":
+                    retval = "1";
+                    break;
+                    case "Two":
+                    retval = "2";
+                    break;
+                    case "Three":
+                    retval = "3";
+                    break;
+                    case "Four":
+                    retval = "4";
+                    break;
+                    case "Five":
+                    retval = "5";
+                    break;
+                    case "Six":
+                    retval = "6";
+                    break;
+                }
                 controller.confirmBetting(betValue.getText(), retval);
                 gameView.confirmBetting();
                 JOptionPane.showMessageDialog(null, "Bet Placed", "", JOptionPane.INFORMATION_MESSAGE);

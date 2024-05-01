@@ -52,6 +52,9 @@ class ServerConnectionHandler implements Runnable
                     case "create_user":
                         create_user(writer, reader);
                         break;
+                    case "get_diceroll":
+                        diceRoll(writer);
+                        break;
                     default:
                         System.out.format("ServerConnectionHandler: Case For (%s) Not Found", line);
                         break;
@@ -100,6 +103,21 @@ class ServerConnectionHandler implements Runnable
         result = -1;
     }
 
+    private void diceRoll(PrintWriter writer)
+    {
+        result = controller.getDiceRollResult();
+        switch (result)
+        {
+            case 1: writer.println("1");
+            case 2: writer.println("2");
+            case 3: writer.println("3");
+            case 4: writer.println("4");
+            case 5: writer.println("5");
+            case 6: writer.println("6");
+            controller.calculatePlayerBalance(result, username, userOption);
+            result = -1;
+        }
+    }
 
     private void balance(PrintWriter writer)
     {

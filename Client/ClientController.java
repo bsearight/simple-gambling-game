@@ -126,7 +126,21 @@ public class ClientController
     }
     protected int getDiceRoll()
     {
-        return 4;
+        int rollResult = 0;
+        writer.println("get_diceroll");
+        String retval = "";
+        try 
+        {
+            retval = reader.readLine();
+            rollResult = Integer.parseInt(retval);
+            System.out.println("received: " + retval);
+            System.out.println("rollresult: " + rollResult);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return rollResult;
     }
     protected void confirmBetting(String bet, String option)
     {

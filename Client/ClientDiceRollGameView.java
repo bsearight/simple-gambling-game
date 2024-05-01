@@ -8,11 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class ClientDiceRollGameView extends ClientGameView
 {
@@ -33,6 +33,8 @@ public class ClientDiceRollGameView extends ClientGameView
     private JLabel dice4;
     private JLabel dice5;
     private JLabel dice6;
+    private JLabel username;
+    private JLabel balance;
     private ImageIcon icon;
 
     public ClientDiceRollGameView(ClientController controller)
@@ -43,15 +45,16 @@ public class ClientDiceRollGameView extends ClientGameView
     private void init()
     {
         frame = new JFrame("Dice Roll Game");
-        switchPanel = new JPanel(new CardLayout()); 
+        switchPanel = new JPanel(new CardLayout());
         defaultState = new JPanel(new FlowLayout(FlowLayout.CENTER));
         postBetState = new JPanel(new BorderLayout());
         cleanupState = new JPanel(new BorderLayout());
+        username = new JLabel("User: " + controller.getUsername());
+        balance = new JLabel("Balance: " + controller.getBalance());
         initButtons();
         switchPanel.add(defaultState, "Default");
         switchPanel.add(postBetState, "Post Bet");
         switchPanel.add(cleanupState, "Cleanup");
-        frame.add(BorderLayout.CENTER, switchPanel);
         diceRoll = getIcon("/Resources/diceroll.gif");
         dice1 = getIcon("/Resources/diceroll1.png");
         dice2 = getIcon("/Resources/diceroll2.png");
@@ -59,8 +62,11 @@ public class ClientDiceRollGameView extends ClientGameView
         dice4 = getIcon("/Resources/diceroll4.png");
         dice5 = getIcon("/Resources/diceroll5.png");
         dice6 = getIcon("/Resources/diceroll6.png");
+        frame.add(BorderLayout.CENTER, switchPanel);
         defaultState.add(betButton, BorderLayout.SOUTH);
         defaultState.add(quitButton, BorderLayout.SOUTH);
+        defaultState.add(username);
+        defaultState.add(balance);
         postBetState.add(flipButton, BorderLayout.SOUTH);
         postBetState.add(diceRoll, BorderLayout.CENTER);
         cleanupState.add(okayButton, BorderLayout.SOUTH);
@@ -105,12 +111,26 @@ public class ClientDiceRollGameView extends ClientGameView
     private void defaultState()
     {
         CardLayout layout = (CardLayout) switchPanel.getLayout();
+        balance.setText("Balance: " + controller.getBalance());
         layout.show(switchPanel, "Default");
     }
     private void postBetState()
     {
         CardLayout layout = (CardLayout) switchPanel.getLayout();
         layout.show(switchPanel, "Post Bet");
+        try
+        {
+            cleanupState.remove(dice1);
+            cleanupState.remove(dice2);
+            cleanupState.remove(dice3);
+            cleanupState.remove(dice4);
+            cleanupState.remove(dice5);
+            cleanupState.remove(dice6);
+        }
+        catch (NullPointerException e)
+        {
+            //nothing lol
+        }
     }
     private void cleanupState(int result)
     {
@@ -163,13 +183,15 @@ public class ClientDiceRollGameView extends ClientGameView
                 openBettingPane();
             }
         });
-        flipButton = new JButton("Flip");
-        flipButton.addActionListener(new ActionListener()
+        flipButton = new JButton("Roll");
+        flipButton.addActionListener(new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                cleanupState(controller.getDiceRoll());
+                int retval = controller.getDiceRoll();
+                System.out.println("gameview recieved " + retval);
+                cleanupState(retval);
             }
         });
         okayButton = new JButton("Okay");

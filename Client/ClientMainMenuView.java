@@ -60,7 +60,7 @@ public class ClientMainMenuView
         loggedIn.add(user);
         loggedIn.add(balance);
         loggedIn.add(playCoinFlipButton);
-        //loggedIn.add(playDiceRollButton);
+        loggedIn.add(playDiceRollButton);
         loggedIn.add(logoutButton);
         loggedIn.add(leaderboardButton);
         loggedIn.add(quitButton2);
