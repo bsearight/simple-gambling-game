@@ -1,5 +1,6 @@
 package Server;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import Resources.Player;
@@ -62,8 +63,6 @@ public class ServerModel
             ResultSet rs = ps.executeQuery(); // Execute the prepared statement directly
             if (rs.next()) {
                 hash = rs.getString(1); // Retrieve the password directly from the ResultSet
-                System.out.println("Retrieved hashed password from the database: " + hash);
-                System.out.println("Hashed password provided by the player: " + password);
             } else {
                 System.err.println("Error: Player not found in the database");
                 return false;
@@ -77,23 +76,26 @@ public class ServerModel
         return false;
     }
 
-    protected String getLeaderboard()
+    protected ArrayList<String> getLeaderboard()
     {
-        StringBuilder builder = new StringBuilder();
+        
+        ArrayList<String> list = new ArrayList<String>();
         try {
             Statement st = connection.createStatement();
-            String cmd = "SELECT username, balance FROM player ORDER BY balance DESC LIMIT 10;"; // Fetch all players ordered by balance
+            String cmd = "SELECT username, balance FROM player ORDER BY balance DESC LIMIT 3;"; // Fetch all players ordered by balance
             ResultSet rs = st.executeQuery(cmd);
             while (rs.next())
             {
-                builder.append(rs.getString("username")).append(": ").append(rs.getInt("balance")).append("\n");
+                StringBuilder builder = new StringBuilder();
+                builder.append(rs.getString("username")).append(": ").append(rs.getInt("balance"));
+                list.add(builder.toString());
             }
         }
         catch (SQLException e)
         {
             e.printStackTrace();
         }
-        return builder.toString();
+        return list;
     }
     protected Player getPlayer(String username)
     {
@@ -142,7 +144,6 @@ public class ServerModel
     }
     protected void updatePlayer(String username, int balance, int betValue)
     {
-        System.out.println("model's betValue: " + betValue);
         Player player = getPlayer(username);
         try 
         {

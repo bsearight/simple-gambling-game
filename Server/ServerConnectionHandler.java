@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 class ServerConnectionHandler implements Runnable
 {
@@ -50,6 +51,9 @@ class ServerConnectionHandler implements Runnable
                     case "create_user":
                         create_user(writer, reader);
                         break;
+                    case "get_diceroll":
+                        diceRoll(writer);
+                        break;
                     default:
                         System.out.format("ServerConnectionHandler: Case For (%s) Not Found", line);
                         break;
@@ -82,8 +86,10 @@ class ServerConnectionHandler implements Runnable
 
     private void leaderboard(PrintWriter writer)
     {
-        String retval = controller.getLeaderboard();
-        writer.println(retval);
+        ArrayList<String> retval = controller.getLeaderboard();
+        writer.println(retval.get(0));
+        writer.println(retval.get(1));
+        writer.println(retval.get(2));
     }
 
 
@@ -95,6 +101,33 @@ class ServerConnectionHandler implements Runnable
         result = -1;
     }
 
+    private void diceRoll(PrintWriter writer)
+    {
+        result = controller.getDiceRollResult();
+        switch (result)
+        {
+            case 1:
+            writer.println("1");
+            break;
+            case 2:
+            writer.println("2");
+            break;
+            case 3:
+            writer.println("3");
+            break;
+            case 4:
+            writer.println("4");
+            break;
+            case 5:
+            writer.println("5");
+            break;
+            case 6:
+            writer.println("6");
+            break;
+        }
+        controller.calculatePlayerBalance(result, username, userOption);
+        result = -1;
+    }
 
     private void balance(PrintWriter writer)
     {

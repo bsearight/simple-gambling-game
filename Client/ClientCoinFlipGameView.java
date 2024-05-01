@@ -112,6 +112,15 @@ public class ClientCoinFlipGameView extends ClientGameView
     {
         CardLayout layout = (CardLayout) switchPanel.getLayout();
         layout.show(switchPanel, "Post Bet");
+        try
+        {
+            cleanupState.remove(coinHeads);
+            cleanupState.remove(coinTails);
+        }
+        catch (NullPointerException e)
+        {
+            //nothing lol
+        }
     }
     private void cleanupState(int result)
     {
