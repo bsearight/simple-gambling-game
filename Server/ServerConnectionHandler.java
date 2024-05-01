@@ -108,15 +108,27 @@ class ServerConnectionHandler implements Runnable
         result = controller.getDiceRollResult();
         switch (result)
         {
-            case 1: writer.println("1");
-            case 2: writer.println("2");
-            case 3: writer.println("3");
-            case 4: writer.println("4");
-            case 5: writer.println("5");
-            case 6: writer.println("6");
-            controller.calculatePlayerBalance(result, username, userOption);
-            result = -1;
+            case 1:
+            writer.println("1");
+            break;
+            case 2:
+            writer.println("2");
+            break;
+            case 3:
+            writer.println("3");
+            break;
+            case 4:
+            writer.println("4");
+            break;
+            case 5:
+            writer.println("5");
+            break;
+            case 6:
+            writer.println("6");
+            break;
         }
+        controller.calculatePlayerBalance(result, username, userOption);
+        result = -1;
     }
 
     private void balance(PrintWriter writer)
