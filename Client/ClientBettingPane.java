@@ -35,6 +35,15 @@ public class ClientBettingPane
         int option = JOptionPane.showConfirmDialog(null, contents, "Betting", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.YES_OPTION)
         {
+            try
+            {
+                int retval = Integer.parseInt(betValue.getText());
+                if (retval < 1) error();
+            }
+            catch (NumberFormatException e)
+            {
+                error();
+            }
             JOptionPane.showMessageDialog(null, "Bet Placed", "", JOptionPane.INFORMATION_MESSAGE);
             controller.confirmBetting(betValue.getText(), coinOption.getSelectedItem().toString());
             gameView.confirmBetting();
@@ -44,5 +53,10 @@ public class ClientBettingPane
             JOptionPane.showMessageDialog(null, "Bet Cancelled", "Error", JOptionPane.ERROR_MESSAGE);
             gameView.cancelBetting();
         }
+    }
+    private void error()
+    {
+        JOptionPane.showMessageDialog(null, "Invalid Bet", "Error", JOptionPane.ERROR_MESSAGE);
+        gameView.cancelBetting();
     }
 }

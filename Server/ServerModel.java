@@ -32,7 +32,7 @@ public class ServerModel
         }
     }
 
-    protected String addNewPlayer(String username, String pHash)
+    protected boolean addNewPlayer(String username, String pHash)
     {
         try
         {
@@ -42,12 +42,12 @@ public class ServerModel
             ps.setString(2, pHash);
             ps.setInt(3, 1000);
             ps.executeUpdate();
-            return "create_confirm";
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
-            return "create_failure";
+            return false;
         }
     }
 
@@ -100,7 +100,7 @@ public class ServerModel
         Player player = new Player();
         try 
         {
-            String cmd = "SELECT id, username, balance FROM player WHERE username = ?;";
+            String cmd = "SELECT id, username, balance, betValue FROM player WHERE username = ?;";
             PreparedStatement ps = connection.prepareStatement(cmd);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -109,6 +109,7 @@ public class ServerModel
                 player.setId(rs.getInt("id"));
                 player.setUsername(rs.getString("username"));
                 player.setBalance(rs.getInt("balance"));
+                player.setBetValue(rs.getInt("betValue"));
             }
         }
         catch(SQLException e)

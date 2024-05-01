@@ -9,8 +9,7 @@ import Resources.Player;
 public class ServerController {
     ServerModel model;
     ServerSocket server;
-    String username;
-    int userOption;
+    
     public ServerController()
     {
         model = new ServerModel(this);
@@ -23,7 +22,7 @@ public class ServerController {
             System.out.println("waiting for clients: ");
             Socket serverSocket = server.accept(); //socket endpoint for communication, once request is received it is filled.
             System.out.println("Client Connected");
-            Thread thread = new Thread(new ServerConnectionHandler(serverSocket, this, model));
+            Thread thread = new Thread(new ServerConnectionHandler(serverSocket, this));
             thread.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,7 +31,6 @@ public class ServerController {
     
     protected String userAuth(String username, String password)
     {
-        this.username = username;
         boolean retval = model.userAuth(username, password);
         if (retval == true) return "auth_confirm";
         else return "auth_failure";
@@ -41,17 +39,15 @@ public class ServerController {
     {
         Random random = new Random();
         int result = random.nextInt(2);
-        calculatePlayerBalance(result);
         return result;
     }
     protected int getDiceRollResult()
     {
         Random random = new Random();
         int result = random.nextInt(6) + 1;
-        calculatePlayerBalance(result);
         return result;
     }
-    protected void confirmBetting(int bet, int option)
+    protected void confirmBetting(int bet, int option, String username, int userOption)
     {
         Player current = model.getPlayer(username);
         userOption = option;
@@ -59,16 +55,17 @@ public class ServerController {
         model.updatePlayer(current.getUsername(), current.getBalance(), bet);
         System.out.println("set user: " + current.getUsername() + " to balance: " + current.getBalance() + " and bet: " + bet);
     }
-    protected int getBalance()
+    protected int getBalance(String username)
     {
         Player current = model.getPlayer(username);
         return current.getBalance();
     }
-    protected void calculatePlayerBalance(int result)
+    protected void calculatePlayerBalance(int result, String username, int userOption)
     {
         Player current = model.getPlayer(username);
         int balance = current.getBalance();
         int bet = current.getBetValue();
+        System.out.println("retrieved balance: " + balance + " and bet: " + bet);
         if (userOption == result) // win
         {  
             balance += bet;
@@ -82,9 +79,15 @@ public class ServerController {
         System.out.println("new balance: " + balance);
         model.updatePlayer(username, balance, 0);
     }
-    protected void addNewPlayer(String username, String password)
+    protected String getLeaderboard()
     {
-        model.addNewPlayer(username, password);
+        return model.getLeaderboard();
+    }
+    protected String addNewPlayer(String username, String password)
+    {
+        boolean retval = model.addNewPlayer(username, password);
+        if (retval == true) return "create_confirm";
+        else return "create_failure";
     }
     public void quit()
     {

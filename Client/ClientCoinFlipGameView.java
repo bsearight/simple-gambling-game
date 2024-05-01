@@ -31,6 +31,8 @@ public class ClientCoinFlipGameView extends ClientGameView
     private JLabel coinFlip;
     private JLabel coinHeads;
     private JLabel coinTails;
+    private JLabel username;
+    private JLabel balance;
     private ImageIcon icon;
 
     public ClientCoinFlipGameView(ClientController controller)
@@ -45,6 +47,8 @@ public class ClientCoinFlipGameView extends ClientGameView
         defaultState = new JPanel(new FlowLayout(FlowLayout.CENTER));
         postBetState = new JPanel(new BorderLayout());
         cleanupState = new JPanel(new BorderLayout());
+        username = new JLabel("User: " + controller.getUsername());
+        balance = new JLabel("Balance: " + controller.getBalance());
         initButtons();
         switchPanel.add(defaultState, "Default");
         switchPanel.add(postBetState, "Post Bet");
@@ -55,6 +59,8 @@ public class ClientCoinFlipGameView extends ClientGameView
         coinTails = getIcon("/Resources/cointails.png");
         defaultState.add(betButton, BorderLayout.SOUTH);
         defaultState.add(quitButton, BorderLayout.SOUTH);
+        defaultState.add(username);
+        defaultState.add(balance);
         postBetState.add(flipButton, BorderLayout.SOUTH);
         postBetState.add(coinFlip, BorderLayout.CENTER);
         cleanupState.add(okayButton, BorderLayout.SOUTH);
@@ -99,6 +105,7 @@ public class ClientCoinFlipGameView extends ClientGameView
     private void defaultState()
     {
         CardLayout layout = (CardLayout) switchPanel.getLayout();
+        balance.setText("Balance: " + controller.getBalance());
         layout.show(switchPanel, "Default");
     }
     private void postBetState()

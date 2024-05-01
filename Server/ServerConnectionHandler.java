@@ -10,12 +10,12 @@ class ServerConnectionHandler implements Runnable
 {
     private Socket clientSocket;
     ServerController controller;
-    ServerModel model;
-    public ServerConnectionHandler(Socket socket, ServerController controller, ServerModel model)
+    String username;
+    int userOption;
+    public ServerConnectionHandler(Socket socket, ServerController controller)
     {
         this.clientSocket = socket;
         this.controller = controller;
-        this.model = model;
     }
 
     @Override
@@ -63,9 +63,10 @@ class ServerConnectionHandler implements Runnable
     }
     private void auth_user(PrintWriter writer, BufferedReader reader)
     {
+        
+        String username = "";
         try
         {
-            String username = "";
             String password = "";
             username = reader.readLine();
             password = reader.readLine();
@@ -77,17 +78,19 @@ class ServerConnectionHandler implements Runnable
         {
             throw new RuntimeException(e);
         }
+        this.username = username;
     }
 
     private void leaderboard(PrintWriter writer)
     {
-        String retval = model.getLeaderboard();
+        String retval = controller.getLeaderboard();
         writer.println(retval);
     }
 
 
     private void coinflip(PrintWriter writer){
         int retval = controller.getCoinFlipResult();
+        controller.calculatePlayerBalance(retval, username, userOption);
         if (retval == 1) writer.println("1");
         else writer.println("0");
     }
@@ -95,7 +98,7 @@ class ServerConnectionHandler implements Runnable
 
     private void balance(PrintWriter writer)
     {
-        int balance = controller.getBalance();
+        int balance = controller.getBalance(username);
         writer.println(Integer.toString(balance));
     }
 
@@ -124,7 +127,7 @@ class ServerConnectionHandler implements Runnable
             //if this happens literally everything will break
             controller.quit();
         }
-        controller.confirmBetting(bet, option);
+        controller.confirmBetting(bet, option, username, userOption);
     }
 
     private void create_user(PrintWriter writer, BufferedReader reader){
@@ -133,10 +136,8 @@ class ServerConnectionHandler implements Runnable
         try
         {
             username = reader.readLine();
-            System.out.format("username: %s\n", username);
             password = reader.readLine();
-            System.out.format("password: %s\n", password);
-            String retval = model.addNewPlayer(username, password);
+            String retval = controller.addNewPlayer(username, password);
             writer.println(retval);
         }
         catch (IOException e)

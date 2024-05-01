@@ -127,6 +127,7 @@ public class ClientMainMenuView
     public void setGameViewOpen(boolean isOpen)
     {
         isGameViewOpen = isOpen;
+        balance.setText("Balance: " + controller.getBalance());
     }
     public void showWindow()
     {
