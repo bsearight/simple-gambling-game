@@ -164,7 +164,7 @@ public class ClientController
         {
             e.printStackTrace();
         }
-        if (retval == "create_confirm") return true;
+        if (retval.contains("create_confirm")) return true;
         else return false;
     }
     protected String getUsername()
