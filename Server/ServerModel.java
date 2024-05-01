@@ -63,8 +63,6 @@ public class ServerModel
             ResultSet rs = ps.executeQuery(); // Execute the prepared statement directly
             if (rs.next()) {
                 hash = rs.getString(1); // Retrieve the password directly from the ResultSet
-                System.out.println("Retrieved hashed password from the database: " + hash);
-                System.out.println("Hashed password provided by the player: " + password);
             } else {
                 System.err.println("Error: Player not found in the database");
                 return false;
@@ -146,7 +144,6 @@ public class ServerModel
     }
     protected void updatePlayer(String username, int balance, int betValue)
     {
-        System.out.println("model's betValue: " + betValue);
         Player player = getPlayer(username);
         try 
         {

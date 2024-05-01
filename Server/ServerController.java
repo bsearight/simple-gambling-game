@@ -20,7 +20,6 @@ public class ServerController {
         // wait for connections from clients
         try {
             server = new ServerSocket(6000); //create a socket_listener on port 6000
-            System.out.println("waiting for clients: ");
             Socket serverSocket = server.accept(); //socket endpoint for communication, once request is received it is filled.
             System.out.println("Client Connected");
             Thread thread = new Thread(new ServerConnectionHandler(serverSocket, this));
@@ -53,7 +52,6 @@ public class ServerController {
         Player current = model.getPlayer(username);
         current.setBetValue(bet);
         model.updatePlayer(current.getUsername(), current.getBalance(), bet);
-        System.out.println("set user: " + current.getUsername() + " to balance: " + current.getBalance() + " and bet: " + bet);
     }
     protected int getBalance(String username)
     {
@@ -65,18 +63,14 @@ public class ServerController {
         Player current = model.getPlayer(username);
         int balance = current.getBalance();
         int bet = current.getBetValue();
-        System.out.println("retrieved user option: " + userOption + " vs retrieved result: " + result);
         if (userOption == result) // win
         {  
             balance += bet;
-            System.out.println("user won: " + bet);
         }
         else // lose
         {
             balance -= bet;
-            System.out.println("user lost: " + bet);
         }
-        System.out.println("new balance: " + balance);
         model.updatePlayer(username, balance, 0);
     }
     protected ArrayList<String> getLeaderboard()

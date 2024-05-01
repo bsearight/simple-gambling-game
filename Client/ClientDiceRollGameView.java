@@ -190,7 +190,6 @@ public class ClientDiceRollGameView extends ClientGameView
             public void actionPerformed(ActionEvent e)
             {
                 int retval = controller.getDiceRoll();
-                System.out.println("gameview recieved " + retval);
                 cleanupState(retval);
             }
         });

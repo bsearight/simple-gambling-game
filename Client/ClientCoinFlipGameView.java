@@ -159,7 +159,6 @@ public class ClientCoinFlipGameView extends ClientGameView
             public void actionPerformed(ActionEvent e)
             {
                 int retval = controller.getCoinFlip();
-                System.out.println("gameview recieved " + retval);
                 cleanupState(retval);
             }
         });

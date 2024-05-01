@@ -9,13 +9,11 @@ public class ClientLeaderboardPane
     JTextArea leaderboard;
     public ClientLeaderboardPane(ClientController controller)
     {
-        System.out.println("Entered: Leaderboard Constructor");
         this.controller = controller;
         init();
     }
     private void init()
     {
-        System.out.println("Entered: Client Leaderboard initiator");
         leaderboard = new JTextArea();
         leaderboard.setRows(3);
         leaderboard.setText(controller.getLeaderboard());

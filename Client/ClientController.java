@@ -38,7 +38,6 @@ public class ClientController
         try
         {
             clientSocket = new Socket("127.0.0.1", 6000);
-            System.out.println("Client: attempting Connection");
             inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
             reader = new BufferedReader(inputStreamReader);
             writer = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -58,7 +57,6 @@ public class ClientController
             return true;
         }
         phash = DigestUtils.md5Hex(password);
-        System.out.println(phash);
         model.setCurrentPlayer(username, phash);
         boolean retval = isLoggedIn();
         view.setIsLoggedIn(retval);
@@ -115,8 +113,6 @@ public class ClientController
         {
             retval = reader.readLine();
             flipResult = Integer.parseInt(retval);
-            System.out.println("received: " + retval);
-            System.out.println("flipresult: " + flipResult);
         }
         catch (IOException e)
         {
@@ -133,8 +129,6 @@ public class ClientController
         {
             retval = reader.readLine();
             rollResult = Integer.parseInt(retval);
-            System.out.println("received: " + retval);
-            System.out.println("rollresult: " + rollResult);
         }
         catch (IOException e)
         {
@@ -151,7 +145,6 @@ public class ClientController
     protected boolean registerUser(String username, String password)
     {
         phash = DigestUtils.md5Hex(password);
-        System.out.println(phash);
         model.setCurrentPlayer(username, phash);
         boolean retval = createPlayer();
         return retval;
