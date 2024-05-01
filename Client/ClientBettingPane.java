@@ -8,6 +8,7 @@ public class ClientBettingPane
 {
     ClientController controller;
     ClientGameView gameView;
+    boolean error = false;
 
     public ClientBettingPane(ClientController controller, ClientCoinFlipGameView gameView)
     {
@@ -44,9 +45,16 @@ public class ClientBettingPane
             {
                 error();
             }
-            JOptionPane.showMessageDialog(null, "Bet Placed", "", JOptionPane.INFORMATION_MESSAGE);
-            controller.confirmBetting(betValue.getText(), coinOption.getSelectedItem().toString());
-            gameView.confirmBetting();
+            if (error == false)
+            {
+                String selectedOption = coinOption.getSelectedItem().toString();
+                String retval = "";
+                if (selectedOption == "Heads") retval = "1";
+                else if (selectedOption == "Tails") retval = "0";
+                controller.confirmBetting(betValue.getText(), retval);
+                gameView.confirmBetting();
+                JOptionPane.showMessageDialog(null, "Bet Placed", "", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         else 
         {
@@ -58,5 +66,6 @@ public class ClientBettingPane
     {
         JOptionPane.showMessageDialog(null, "Invalid Bet", "Error", JOptionPane.ERROR_MESSAGE);
         gameView.cancelBetting();
+        error = true;
     }
 }

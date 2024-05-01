@@ -12,6 +12,7 @@ class ServerConnectionHandler implements Runnable
     ServerController controller;
     String username;
     int userOption;
+    int result;
     public ServerConnectionHandler(Socket socket, ServerController controller)
     {
         this.clientSocket = socket;
@@ -89,10 +90,11 @@ class ServerConnectionHandler implements Runnable
 
 
     private void coinflip(PrintWriter writer){
-        int retval = controller.getCoinFlipResult();
-        controller.calculatePlayerBalance(retval, username, userOption);
-        if (retval == 1) writer.println("1");
-        else writer.println("0");
+        result = controller.getCoinFlipResult();
+        if (result == 1) writer.println("1");
+        else if (result == 0) writer.println("0");
+        controller.calculatePlayerBalance(result, username, userOption);
+        result = -1;
     }
 
 
@@ -106,14 +108,11 @@ class ServerConnectionHandler implements Runnable
     private void confirm_bet(PrintWriter writer, BufferedReader reader)
     {
         String retval = "";
-        int option = 0;
         int bet = 0;
         try
         {
             retval = reader.readLine();
-            System.out.println("server received: " + retval);
-            if (retval == "Heads") option = 1;
-            else if (retval == "Tails") option = 0;
+            userOption = Integer.parseInt(retval);
             retval = reader.readLine();
             bet = Integer.parseInt(retval);
         }
@@ -127,7 +126,7 @@ class ServerConnectionHandler implements Runnable
             //if this happens literally everything will break
             controller.quit();
         }
-        controller.confirmBetting(bet, option, username, userOption);
+        controller.confirmBetting(bet, username);
     }
 
     private void create_user(PrintWriter writer, BufferedReader reader){

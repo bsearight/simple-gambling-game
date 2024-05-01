@@ -47,10 +47,9 @@ public class ServerController {
         int result = random.nextInt(6) + 1;
         return result;
     }
-    protected void confirmBetting(int bet, int option, String username, int userOption)
+    protected void confirmBetting(int bet, String username)
     {
         Player current = model.getPlayer(username);
-        userOption = option;
         current.setBetValue(bet);
         model.updatePlayer(current.getUsername(), current.getBalance(), bet);
         System.out.println("set user: " + current.getUsername() + " to balance: " + current.getBalance() + " and bet: " + bet);
@@ -65,7 +64,7 @@ public class ServerController {
         Player current = model.getPlayer(username);
         int balance = current.getBalance();
         int bet = current.getBetValue();
-        System.out.println("retrieved balance: " + balance + " and bet: " + bet);
+        System.out.println("retrieved user option: " + userOption + " vs retrieved result: " + result);
         if (userOption == result) // win
         {  
             balance += bet;
