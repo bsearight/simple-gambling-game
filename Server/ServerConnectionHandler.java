@@ -36,7 +36,6 @@ class ServerConnectionHandler implements Runnable
                         auth_user(writer, reader);
                         break;
                     case "get_leaderboard":
-                        System.out.println("Server: Entering leaderboard()");
                         leaderboard(writer);
                         break;
                     case "get_coinflip":
@@ -71,7 +70,6 @@ class ServerConnectionHandler implements Runnable
             String password = "";
             username = reader.readLine();
             password = reader.readLine();
-            System.out.println(password);
             String retval = controller.userAuth(username, password);
             writer.println(retval);
         }
