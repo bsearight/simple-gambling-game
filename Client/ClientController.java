@@ -89,30 +89,39 @@ public class ClientController
     public String getLeaderboard()
     {
         writer.println("get_leaderboard");
+        StringBuilder builder = new StringBuilder();
         String retval = "";
         try
         {
             retval = reader.readLine();
+            builder.append(retval).append("\n");
+            retval = reader.readLine();
+            builder.append(retval).append("\n");
+            retval = reader.readLine();
+            builder.append(retval).append("\n");
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        return retval;
+        return builder.toString();
     }
     protected int getCoinFlip()
     {
+        int flipResult = 0;
         writer.println("get_coinflip");
         String retval = "";
         try 
         {
             retval = reader.readLine();
+            flipResult = Integer.parseInt(retval);
+            System.out.println("received: " + retval);
+            System.out.println("flipresult: " + flipResult);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        int flipResult = Integer.parseInt(retval);
         return flipResult; // 1 is heads, 0 is tails
     }
     protected int getDiceRoll()

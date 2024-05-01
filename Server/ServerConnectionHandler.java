@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 class ServerConnectionHandler implements Runnable
 {
@@ -84,8 +85,10 @@ class ServerConnectionHandler implements Runnable
 
     private void leaderboard(PrintWriter writer)
     {
-        String retval = controller.getLeaderboard();
-        writer.println(retval);
+        ArrayList<String> retval = controller.getLeaderboard();
+        writer.println(retval.get(0));
+        writer.println(retval.get(1));
+        writer.println(retval.get(2));
     }
 
 

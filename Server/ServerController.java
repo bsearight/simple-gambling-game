@@ -2,6 +2,7 @@ package Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Random;
 
 import Resources.Player;
@@ -78,7 +79,7 @@ public class ServerController {
         System.out.println("new balance: " + balance);
         model.updatePlayer(username, balance, 0);
     }
-    protected String getLeaderboard()
+    protected ArrayList<String> getLeaderboard()
     {
         return model.getLeaderboard();
     }

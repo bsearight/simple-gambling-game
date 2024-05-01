@@ -49,7 +49,7 @@ public class ClientMainMenuView
     }
     private void init()
     {
-        frame = new JFrame("Coin Flip Client");
+        frame = new JFrame("Betting Game Client");
         loggedIn = new JPanel(new FlowLayout(FlowLayout.CENTER));
         loggedOut = new JPanel(new FlowLayout(FlowLayout.CENTER));
         switchPanel = new JPanel(new CardLayout());
@@ -57,13 +57,13 @@ public class ClientMainMenuView
         balance = new JLabel();
         title = getIcon();
         initButtons();
+        loggedIn.add(user);
+        loggedIn.add(balance);
         loggedIn.add(playCoinFlipButton);
-        loggedIn.add(playDiceRollButton);
+        //loggedIn.add(playDiceRollButton);
         loggedIn.add(logoutButton);
         loggedIn.add(leaderboardButton);
         loggedIn.add(quitButton2);
-        loggedIn.add(user);
-        loggedIn.add(balance);
         loggedOut.add(loginButton);
         loggedOut.add(registerButton);
         loggedOut.add(quitButton);
@@ -112,8 +112,13 @@ public class ClientMainMenuView
             user.setText("User: " + controller.getUsername());
             balance.setText("Balance: " + controller.getBalance());
             layout.show(switchPanel, "loggedIn");
+            frame.setSize(250, 200);
         }
-        else layout.show(switchPanel, "loggedOut");
+        else
+        {
+            frame.setSize(800, 600);
+            layout.show(switchPanel, "loggedOut");
+        }
     }
     private void openLeaderboard()
     {
