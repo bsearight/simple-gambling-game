@@ -1,4 +1,5 @@
 Simple Gambling Game
+created as part of a university software development class
 
 Instructions:
 clone the repo, compile, and run the server first, then the client
