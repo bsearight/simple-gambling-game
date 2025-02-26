@@ -5,6 +5,7 @@ Created as part of a university software development class.
 ## Description
 
 Play a fun gambling game with **coin flipping** or **dice rolling**. Try not to run out of money!
+- Note: This is a local-only proof-of-concept that is not inteded for actual usage. Please be advised.
 
 ## Features
 
